@@ -1,0 +1,18 @@
+# dependencies
+node_modules/
+
+# production
+build/
+
+# secrets
+.env
+
+# logs
+*.log
+.log*
+
+# misc
+.DS_Store
+
+# vscode settings
+.vscode
