@@ -1,0 +1,55 @@
+.burgerConstructor {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  padding-block: 100px 52px;
+  padding-inline: 16px;
+  flex-basis: 600px;
+}
+
+.components {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 440px;
+}
+
+.component {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: end;
+}
+
+.drag {
+  width: 24px;
+}
+
+.stuffing {
+  flex: 1;
+  position: relative;
+  margin-block: 10px;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  position: absolute;
+  inset: 0;
+  overflow: auto;
+  list-style: none;
+}
+
+.info {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  gap: 40px;
+
+  &__price {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+}
