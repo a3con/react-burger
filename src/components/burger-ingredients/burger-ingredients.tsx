@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 import { IngredientItem } from './ingredient-item/ingredient-item'
+import { IngredientDetails } from './ingredient-details/ingredient-details'
+import { Modal } from '../modal/modal'
 import style from './burger-ingredients.module.scss'
 import { IIngredient } from '../../utils/interfaces'
 
@@ -10,6 +12,8 @@ interface IBurgerIngredientsProps {
 
 export const BurgerIngredients = ({ ingredients }: IBurgerIngredientsProps) => {
   const [currentTab, setCurrentTab] = useState('buns')
+  const [currentIngredient, setCurrentIngredient] =
+    useState<IIngredient | null>(null)
 
   const bunItems = ingredients.filter(item => item.type === 'bun')
   const sauceItems = ingredients.filter(item => item.type === 'sauce')
@@ -51,6 +55,7 @@ export const BurgerIngredients = ({ ingredients }: IBurgerIngredientsProps) => {
             <ul className={style.list}>
               {bunItems.map((item, index) => (
                 <IngredientItem
+                  onClick={() => setCurrentIngredient(item)}
                   key={index}
                   image={item.image}
                   name={item.name}
@@ -66,6 +71,7 @@ export const BurgerIngredients = ({ ingredients }: IBurgerIngredientsProps) => {
             <ul className={style.list}>
               {sauceItems.map((item, index) => (
                 <IngredientItem
+                  onClick={() => setCurrentIngredient(item)}
                   key={index}
                   image={item.image}
                   name={item.name}
@@ -81,6 +87,7 @@ export const BurgerIngredients = ({ ingredients }: IBurgerIngredientsProps) => {
             <ul className={style.list}>
               {mainItems.map((item, index) => (
                 <IngredientItem
+                  onClick={() => setCurrentIngredient(item)}
                   key={index}
                   image={item.image}
                   name={item.name}
@@ -92,6 +99,15 @@ export const BurgerIngredients = ({ ingredients }: IBurgerIngredientsProps) => {
           </article>
         </div>
       </section>
+
+      {currentIngredient && (
+        <Modal
+          title="Детали ингредиента"
+          onClose={() => setCurrentIngredient(null)}
+        >
+          <IngredientDetails ingredient={currentIngredient} />
+        </Modal>
+      )}
     </section>
   )
 }

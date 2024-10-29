@@ -10,16 +10,18 @@ interface IIngredientItemProps {
   price: number
   count: number
   image: string
+  onClick: () => void
 }
 
 export const IngredientItem = ({
   image,
   name,
   price,
+  onClick,
   count = 0,
 }: IIngredientItemProps) => {
   return (
-    <div className={style.ingredient}>
+    <div className={style.ingredient} onClick={onClick}>
       {count > 0 && <Counter count={count} size="default" extraClass="m-1" />}
       <div>
         <img src={image} alt={name} width="240" height="120" />

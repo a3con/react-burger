@@ -3,18 +3,9 @@ import { AppHeader } from '../app-header/app-header'
 import { BurgerConstructor } from '../burger-constructor/burger-constructor'
 import { BurgerIngredients } from '../burger-ingredients/burger-ingredients'
 import { IIngredient } from '../../utils/interfaces'
-import { data } from '../../utils/data'
 import style from './app.module.scss'
 
-function getData(): Promise<IIngredient[]> {
-  return new Promise(resolve => setTimeout(() => resolve(data), 1000))
-}
-
-function catchError<T>(promise: Promise<T>): Promise<[undefined, T] | [Error]> {
-  return promise
-    .then(data => [undefined, data] as [undefined, T])
-    .catch(error => [error])
-}
+const API_INGREDIENTS = 'https://norma.nomoreparties.space/api/ingredients'
 
 export default function App() {
   const [selectedIngredients, setSelectedIngredients] = useState<IIngredient[]>(
@@ -25,18 +16,24 @@ export default function App() {
   const [error, setError] = useState(false)
 
   useEffect(() => {
-    const fetchData = async () => {
-      const [error, data] = await catchError(getData())
-      if (error) {
+    fetch(API_INGREDIENTS)
+      .then(res => res.json())
+      .then(({ success, data }) => {
+        if (success) {
+          setIngredients(data)
+          setSelectedIngredients(data) // Temp
+        } else {
+          console.log('There was an error', data)
+          setError(true)
+        }
+      })
+      .catch(error => {
         console.log('There was an error', error.message)
         setError(true)
-      } else {
-        setIngredients(data)
-        setSelectedIngredients(data)
-      }
-      setLoading(false)
-    }
-    fetchData()
+      })
+      .finally(() => {
+        setLoading(false)
+      })
   }, [])
 
   return (

@@ -1,3 +1,5 @@
+import { useState } from 'react'
+import { Modal } from '../modal/modal'
 import { IIngredient } from '../../utils/interfaces'
 import {
   CurrencyIcon,
@@ -6,12 +8,14 @@ import {
   ConstructorElement,
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import style from './burger-constructor.module.scss'
+import { OrderDetails } from './order-details/order-details'
 
 interface IBurgerConstructorProps {
   ingredients: IIngredient[]
 }
 
 export const BurgerConstructor = ({ ingredients }: IBurgerConstructorProps) => {
+  const [showOrder, setShowOrder] = useState(false)
 
   let bun = null
   const filling = []
@@ -77,10 +81,17 @@ export const BurgerConstructor = ({ ingredients }: IBurgerConstructorProps) => {
           htmlType="button"
           type="primary"
           size="large"
+          onClick={() => setShowOrder(true)}
         >
           Оформить заказ
         </Button>
       </div>
+
+      {showOrder && (
+        <Modal onClose={() => setShowOrder(false)}>
+          <OrderDetails />
+        </Modal>
+      )}
     </section>
   )
 }
