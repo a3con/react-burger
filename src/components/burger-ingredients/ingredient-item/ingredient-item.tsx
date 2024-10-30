@@ -12,14 +12,6 @@ interface IIngredientItemProps {
   onClick: () => void
 }
 
-/* 
-
-key={item._id}
-                  image={item.image}
-                  name={item.name}
-                  price={item.price}
-*/
-
 export const IngredientItem = ({
   ingredient,
   onClick,
