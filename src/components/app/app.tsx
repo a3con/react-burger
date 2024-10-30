@@ -17,15 +17,17 @@ export default function App() {
 
   useEffect(() => {
     fetch(API_INGREDIENTS)
-      .then(res => res.json())
+      .then(res => {
+        if (res.ok) return res.json()
+        return Promise.reject(`Error ${res.status}`)
+      })
       .then(({ success, data }) => {
-        if (success) {
-          setIngredients(data)
-          setSelectedIngredients(data) // Temp
-        } else {
-          console.log('There was an error', data)
-          setError(true)
-        }
+        if (success) return data
+        return Promise.reject(`Error ${data}`)
+      })
+      .then(data => {
+        setIngredients(data)
+        setSelectedIngredients(data) // Temp
       })
       .catch(error => {
         console.log('There was an error', error.message)
@@ -38,10 +40,9 @@ export default function App() {
 
   return (
     <>
-      <div className={style.spacer}></div>
-      <header className={style.header}>
+      <div className={style.header}>
         <AppHeader />
-      </header>
+      </div>
       {!loading && !error && (
         <main className={style.content}>
           <BurgerIngredients ingredients={ingredients} />

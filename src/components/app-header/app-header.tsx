@@ -11,7 +11,7 @@ export const AppHeader = () => {
   const [activePage] = useState('main')
 
   return (
-    <div className={style.header}>
+    <header className={style.header}>
       <a href="/" className={style.logo}>
         <Logo />
       </a>
@@ -54,6 +54,6 @@ export const AppHeader = () => {
           <span>Личный кабинет</span>
         </a>
       </nav>
-    </div>
+    </header>
   )
 }
