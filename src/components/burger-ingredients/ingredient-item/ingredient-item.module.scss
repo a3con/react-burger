@@ -4,8 +4,7 @@
   align-items: center;
   text-align: center;
   gap: 8px;
-  //width: 272px;
-  width: 264px; // desktop scrollbar :(
+  flex: 0 0 calc(50% - var(--ingredients-gap, 24px) / 2);
   position: relative;
   cursor: pointer;
 }

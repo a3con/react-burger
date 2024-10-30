@@ -53,13 +53,11 @@ export const BurgerIngredients = ({ ingredients }: IBurgerIngredientsProps) => {
           <article className={style.category}>
             <h2 className={style.category__title}>Булки</h2>
             <ul className={style.list}>
-              {bunItems.map((item, index) => (
+              {bunItems.map(item => (
                 <IngredientItem
+                  key={item._id}
+                  ingredient={item}
                   onClick={() => setCurrentIngredient(item)}
-                  key={index}
-                  image={item.image}
-                  name={item.name}
-                  price={item.price}
                   count={3}
                 />
               ))}
@@ -69,13 +67,11 @@ export const BurgerIngredients = ({ ingredients }: IBurgerIngredientsProps) => {
           <article className={style.category}>
             <h2 className={style.category__title}>Соусы</h2>
             <ul className={style.list}>
-              {sauceItems.map((item, index) => (
+              {sauceItems.map(item => (
                 <IngredientItem
+                  key={item._id}
+                  ingredient={item}
                   onClick={() => setCurrentIngredient(item)}
-                  key={index}
-                  image={item.image}
-                  name={item.name}
-                  price={item.price}
                   count={0}
                 />
               ))}
@@ -85,13 +81,11 @@ export const BurgerIngredients = ({ ingredients }: IBurgerIngredientsProps) => {
           <article className={style.category}>
             <h2 className={style.category__title}>Начинки</h2>
             <ul className={style.list}>
-              {mainItems.map((item, index) => (
+              {mainItems.map(item => (
                 <IngredientItem
+                  key={item._id}
+                  ingredient={item}
                   onClick={() => setCurrentIngredient(item)}
-                  key={index}
-                  image={item.image}
-                  name={item.name}
-                  price={item.price}
                   count={1}
                 />
               ))}

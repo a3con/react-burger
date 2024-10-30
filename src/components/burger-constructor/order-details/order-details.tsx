@@ -11,7 +11,7 @@ export const OrderDetails = () => {
       <img
         className="mt-15 mb-15"
         src={iconChecked}
-        alt=""
+        alt="Изображение успешного заказа"
         width="120"
         height="120"
       />

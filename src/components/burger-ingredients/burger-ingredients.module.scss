@@ -42,8 +42,9 @@
 }
 
 .list {
+  --ingredients-gap: 24px;
   display: inline-flex;
-  gap: 24px;
+  gap: var(--ingredients-gap);
   padding-inline: 16px;
   flex-wrap: wrap;
 }

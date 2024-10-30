@@ -2,21 +2,26 @@ import {
   CurrencyIcon,
   Counter,
 } from '@ya.praktikum/react-developer-burger-ui-components'
+import { IIngredient } from '../../../utils/interfaces'
 
 import style from './ingredient-item.module.scss'
 
 interface IIngredientItemProps {
-  name: string
-  price: number
+  ingredient: IIngredient
   count: number
-  image: string
   onClick: () => void
 }
 
+/* 
+
+key={item._id}
+                  image={item.image}
+                  name={item.name}
+                  price={item.price}
+*/
+
 export const IngredientItem = ({
-  image,
-  name,
-  price,
+  ingredient,
   onClick,
   count = 0,
 }: IIngredientItemProps) => {
@@ -24,13 +29,20 @@ export const IngredientItem = ({
     <div className={style.ingredient} onClick={onClick}>
       {count > 0 && <Counter count={count} size="default" extraClass="m-1" />}
       <div>
-        <img src={image} alt={name} width="240" height="120" />
+        <img
+          src={ingredient.image}
+          alt={ingredient.name}
+          width="240"
+          height="120"
+        />
       </div>
       <div className={style.price}>
-        <span className="text text_type_digits-default">{price}</span>
+        <span className="text text_type_digits-default">
+          {ingredient.price}
+        </span>
         <CurrencyIcon type="primary" />
       </div>
-      <span className={style.name}>{name}</span>
+      <span className={style.name}>{ingredient.name}</span>
     </div>
   )
 }
