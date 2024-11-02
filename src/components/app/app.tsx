@@ -1,52 +1,31 @@
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import { AppHeader } from '../app-header/app-header'
 import { BurgerConstructor } from '../burger-constructor/burger-constructor'
 import { BurgerIngredients } from '../burger-ingredients/burger-ingredients'
-import { IIngredient } from '../../utils/interfaces'
+import { useAppDispatch, useAppSelector } from '../../services/store'
+import { getIngredients } from '../../services/burger-ingredients/actions'
+import { loadIngredients } from '../../services/burger-ingredients/reducer'
 import style from './app.module.scss'
 
-const API_INGREDIENTS = 'https://norma.nomoreparties.space/api/ingredients'
-
 export default function App() {
-  const [selectedIngredients, setSelectedIngredients] = useState<IIngredient[]>(
-    [],
-  )
-  const [ingredients, setIngredients] = useState<IIngredient[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(false)
+  const { loading, error, ingredients } = useAppSelector(loadIngredients)
+  const dispatch = useAppDispatch()
 
   useEffect(() => {
-    fetch(API_INGREDIENTS)
-      .then(res => {
-        if (res.ok) return res.json()
-        return Promise.reject(`Error ${res.status}`)
-      })
-      .then(({ success, data }) => {
-        if (success) return data
-        return Promise.reject(`Error ${data}`)
-      })
-      .then(data => {
-        setIngredients(data)
-        setSelectedIngredients(data) // Temp
-      })
-      .catch(error => {
-        console.log('There was an error', error.message)
-        setError(true)
-      })
-      .finally(() => {
-        setLoading(false)
-      })
-  }, [])
+    dispatch(getIngredients())
+  }, [dispatch])
 
   return (
     <>
       <div className={style.header}>
         <AppHeader />
       </div>
-      {!loading && !error && (
+      {loading && <main className={style.content}><p className={style.status}>Загрузка...</p></main>}
+      {error && <main className={style.content}><p className={style.status}>Что-то пошло не так :(</p></main>}
+      {!loading && !error && ingredients.length > 0 && (
         <main className={style.content}>
           <BurgerIngredients ingredients={ingredients} />
-          <BurgerConstructor ingredients={selectedIngredients} />
+          <BurgerConstructor />
         </main>
       )}
     </>
