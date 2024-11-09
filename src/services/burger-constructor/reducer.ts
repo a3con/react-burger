@@ -1,7 +1,6 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, nanoid, PayloadAction } from '@reduxjs/toolkit'
 import { requestOrderNumber } from './actions'
 import { IIngredient } from '../../utils/interfaces'
-import { v4 as uuidv4 } from 'uuid'
 
 export interface IConstructorIngredient extends IIngredient {
   uuid: string
@@ -33,9 +32,14 @@ export const burgerConstructorSlice = createSlice({
     setIngredients: (state, action) => {
       state.ingredients = action.payload
     },
-    addIngredient: (state, action) => {
-      const ingredient = action.payload
-      state.ingredients.push({ ...ingredient, uuid: uuidv4() })
+    addIngredient: {
+      reducer: (state, action: PayloadAction<IConstructorIngredient>) => {
+        const ingredient = action.payload
+        state.ingredients.push({ ...ingredient })
+      },
+      prepare: (ingredient: IIngredient) => {
+        return { payload: { ...ingredient, uuid: nanoid() } }
+      },
     },
     removeIngredient: (state, action) => {
       const uuid = action.payload

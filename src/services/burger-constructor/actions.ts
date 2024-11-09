@@ -37,7 +37,6 @@ export const requestOrderNumber = createAsyncThunk(
       requestOptions,
     )
 
-    console.log('API Response:', response)
     const orderNumber = response.order.number
 
     return orderNumber
