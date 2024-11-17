@@ -6,12 +6,11 @@ import { Modal } from '../modal/modal'
 import style from './burger-ingredients.module.scss'
 import { IIngredient } from '../../utils/interfaces'
 import { RefObject } from 'react'
+import { useAppSelector } from '../../services/store'
+import { loadIngredients } from '../../services/burger-ingredients/reducer'
 
-export const BurgerIngredients = ({
-  ingredients,
-}: {
-  ingredients: IIngredient[]
-}) => {
+export const BurgerIngredients = () => {
+  const { ingredients } = useAppSelector(loadIngredients)
   const [currentTab, setCurrentTab] = useState('buns')
   const [currentIngredient, setCurrentIngredient] =
     useState<IIngredient | null>(null)
