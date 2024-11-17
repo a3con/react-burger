@@ -1,23 +1,70 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 import { IngredientItem } from './ingredient-item/ingredient-item'
 import { IngredientDetails } from './ingredient-details/ingredient-details'
 import { Modal } from '../modal/modal'
 import style from './burger-ingredients.module.scss'
 import { IIngredient } from '../../utils/interfaces'
+import { RefObject } from 'react'
 
-interface IBurgerIngredientsProps {
+export const BurgerIngredients = ({
+  ingredients,
+}: {
   ingredients: IIngredient[]
-}
-
-export const BurgerIngredients = ({ ingredients }: IBurgerIngredientsProps) => {
+}) => {
   const [currentTab, setCurrentTab] = useState('buns')
   const [currentIngredient, setCurrentIngredient] =
     useState<IIngredient | null>(null)
 
+  const bunsRef = useRef<HTMLDivElement>(null)
+  const saucesRef = useRef<HTMLDivElement>(null)
+  const fillingsRef = useRef<HTMLDivElement>(null)
+  const viewsRef = useRef<HTMLDivElement>(null)
+
   const bunItems = ingredients.filter(item => item.type === 'bun')
   const sauceItems = ingredients.filter(item => item.type === 'sauce')
   const mainItems = ingredients.filter(item => item.type === 'main')
+
+  // Как правильно HTMLDivElement или HTMLElement? Ведь можно применить ref не только к <div>?
+  const scrollToCategory = (ref: RefObject<HTMLDivElement>) => {
+    if (ref && ref.current) {
+      ref.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      })
+    }
+  }
+
+  const handleScroll = () => {
+    if (
+      bunsRef.current &&
+      saucesRef.current &&
+      fillingsRef.current &&
+      viewsRef.current
+    ) {
+      const viewBox = viewsRef.current.getBoundingClientRect()
+      const tabsBox: [string, DOMRect][] = [
+        ['buns', bunsRef.current.getBoundingClientRect()],
+        ['sauces', saucesRef.current.getBoundingClientRect()],
+        ['fillings', fillingsRef.current.getBoundingClientRect()],
+      ]
+
+      // Если неизвестен порядок в tabsBox
+      // tabsBox.sort((a, b) => (a[1].y > b[1].y ? 1 : a[1].y < b[1].y ? -1 : 0))
+
+      let minBox = tabsBox.pop()
+      if (!minBox) return
+
+      for (const box of tabsBox) {
+        const currBox = Math.round(box[1].y + box[1].height - viewBox.y)
+        const prevBox = Math.round(minBox[1].y + minBox[1].height - viewBox.y)
+        if (currBox > 0 && prevBox > currBox) {
+          minBox = box
+        }
+      }
+      minBox && setCurrentTab(minBox[0])
+    }
+  }
 
   return (
     <section className={style.ingredients}>
@@ -27,21 +74,30 @@ export const BurgerIngredients = ({ ingredients }: IBurgerIngredientsProps) => {
           <Tab
             value="buns"
             active={currentTab === 'buns'}
-            onClick={setCurrentTab}
+            onClick={() => {
+              setCurrentTab('buns')
+              scrollToCategory(bunsRef)
+            }}
           >
             Булки
           </Tab>
           <Tab
             value="sauces"
             active={currentTab === 'sauces'}
-            onClick={setCurrentTab}
+            onClick={() => {
+              setCurrentTab('sauces')
+              scrollToCategory(saucesRef)
+            }}
           >
             Соусы
           </Tab>
           <Tab
             value="fillings"
             active={currentTab === 'fillings'}
-            onClick={setCurrentTab}
+            onClick={() => {
+              setCurrentTab('fillings')
+              scrollToCategory(fillingsRef)
+            }}
           >
             Начинки
           </Tab>
@@ -49,8 +105,8 @@ export const BurgerIngredients = ({ ingredients }: IBurgerIngredientsProps) => {
       </header>
 
       <section className={style.categories}>
-        <div className={style.views}>
-          <article className={style.category}>
+        <div className={style.views} ref={viewsRef} onScroll={handleScroll}>
+          <article className={style.category} ref={bunsRef}>
             <h2 className={style.category__title}>Булки</h2>
             <ul className={style.list}>
               {bunItems.map(item => (
@@ -58,13 +114,12 @@ export const BurgerIngredients = ({ ingredients }: IBurgerIngredientsProps) => {
                   key={item._id}
                   ingredient={item}
                   onClick={() => setCurrentIngredient(item)}
-                  count={3}
                 />
               ))}
             </ul>
           </article>
 
-          <article className={style.category}>
+          <article className={style.category} ref={saucesRef}>
             <h2 className={style.category__title}>Соусы</h2>
             <ul className={style.list}>
               {sauceItems.map(item => (
@@ -72,13 +127,12 @@ export const BurgerIngredients = ({ ingredients }: IBurgerIngredientsProps) => {
                   key={item._id}
                   ingredient={item}
                   onClick={() => setCurrentIngredient(item)}
-                  count={0}
                 />
               ))}
             </ul>
           </article>
 
-          <article className={style.category}>
+          <article className={style.category} ref={fillingsRef}>
             <h2 className={style.category__title}>Начинки</h2>
             <ul className={style.list}>
               {mainItems.map(item => (
@@ -86,7 +140,6 @@ export const BurgerIngredients = ({ ingredients }: IBurgerIngredientsProps) => {
                   key={item._id}
                   ingredient={item}
                   onClick={() => setCurrentIngredient(item)}
-                  count={1}
                 />
               ))}
             </ul>

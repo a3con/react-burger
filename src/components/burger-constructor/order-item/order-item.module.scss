@@ -1,0 +1,14 @@
+.ingredient {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: end;
+}
+
+.drag {
+  width: 24px;
+}
+
+.dragCursor {
+  cursor: grab;
+}

@@ -1,20 +1,29 @@
 import iconChecked from '../../../images/checked.svg'
+import { useAppSelector } from '../../../services/store'
 import style from './order-details.module.scss'
 
 export const OrderDetails = () => {
+  const { loading, orderNumber } = useAppSelector(state => state.order)
+
   return (
     <div className={style.order}>
       <p className={`${style.order__id} text text_type_digits-large mt-4 mb-8`}>
-        034536
+        {orderNumber}
       </p>
       <p className="text text_type_main-medium">идентификатор заказа</p>
-      <img
-        className="mt-15 mb-15"
-        src={iconChecked}
-        alt="Изображение успешного заказа"
-        width="120"
-        height="120"
-      />
+      {loading ? (
+        <p className="mt-15 mb-15">
+          <span className="text text_type_main-medium">Загрузка...</span>
+        </p>
+      ) : (
+        <img
+          className="mt-15 mb-15"
+          src={iconChecked}
+          alt="Изображение успешного заказа"
+          width="120"
+          height="120"
+        />
+      )}
       <p className="text text_type_main-default mb-2">
         Ваш заказ начали готовить
       </p>

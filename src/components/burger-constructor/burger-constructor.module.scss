@@ -8,21 +8,14 @@
 }
 
 .components {
+  composes: text text_type_main-default from global;
+
   display: flex;
   flex-direction: column;
   flex: 1;
   min-height: 440px;
-}
-
-.component {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  justify-content: end;
-}
-
-.drag {
-  width: 24px;
+  list-style: none;
+  position: relative;
 }
 
 .stuffing {
@@ -52,4 +45,14 @@
     align-items: center;
     gap: 8px;
   }
+}
+
+.empty::before {
+  content: 'Выберите ингридиенты';
+  position: absolute;
+  inset: 0;
+  border: 1px solid #4C4CFF;
+  border-radius: 40px;
+  display: grid;
+  place-content: center;
 }
