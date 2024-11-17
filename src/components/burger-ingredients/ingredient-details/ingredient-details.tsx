@@ -1,11 +1,14 @@
-import { IIngredient } from '../../../utils/interfaces'
+import { useParams } from 'react-router-dom'
 import style from './ingredient-details.module.scss'
+import { useAppSelector } from '../../../services/store'
 
-interface IIngredientDetailsProps {
-  ingredient: IIngredient
-}
+export const IngredientDetails = () => {
+  const { id } = useParams()
+  const ingredients = useAppSelector(state => state.ingredients.ingredients)
+  const ingredient = ingredients.find(item => item._id === id)
 
-export const IngredientDetails = ({ ingredient }: IIngredientDetailsProps) => {
+  if (!ingredient) return null
+
   return (
     <div className={style.details}>
       <div

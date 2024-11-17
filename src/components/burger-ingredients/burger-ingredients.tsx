@@ -1,19 +1,16 @@
 import { useState, useRef } from 'react'
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 import { IngredientItem } from './ingredient-item/ingredient-item'
-import { IngredientDetails } from './ingredient-details/ingredient-details'
-import { Modal } from '../modal/modal'
 import style from './burger-ingredients.module.scss'
 import { IIngredient } from '../../utils/interfaces'
 import { RefObject } from 'react'
 import { useAppSelector } from '../../services/store'
 import { loadIngredients } from '../../services/burger-ingredients/reducer'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 export const BurgerIngredients = () => {
   const { ingredients } = useAppSelector(loadIngredients)
   const [currentTab, setCurrentTab] = useState('buns')
-  const [currentIngredient, setCurrentIngredient] =
-    useState<IIngredient | null>(null)
 
   const bunsRef = useRef<HTMLDivElement>(null)
   const saucesRef = useRef<HTMLDivElement>(null)
@@ -23,6 +20,15 @@ export const BurgerIngredients = () => {
   const bunItems = ingredients.filter(item => item.type === 'bun')
   const sauceItems = ingredients.filter(item => item.type === 'sauce')
   const mainItems = ingredients.filter(item => item.type === 'main')
+
+  const location = useLocation()
+  const navigate = useNavigate()
+
+  const handleClick = (ingredient: IIngredient) => {
+    navigate(`/ingredients/${ingredient._id}`, {
+      state: { background: location },
+    })
+  }
 
   // Как правильно HTMLDivElement или HTMLElement? Ведь можно применить ref не только к <div>?
   const scrollToCategory = (ref: RefObject<HTMLDivElement>) => {
@@ -112,7 +118,7 @@ export const BurgerIngredients = () => {
                 <IngredientItem
                   key={item._id}
                   ingredient={item}
-                  onClick={() => setCurrentIngredient(item)}
+                  onClick={() => handleClick(item)}
                 />
               ))}
             </ul>
@@ -125,7 +131,7 @@ export const BurgerIngredients = () => {
                 <IngredientItem
                   key={item._id}
                   ingredient={item}
-                  onClick={() => setCurrentIngredient(item)}
+                  onClick={() => handleClick(item)}
                 />
               ))}
             </ul>
@@ -138,22 +144,13 @@ export const BurgerIngredients = () => {
                 <IngredientItem
                   key={item._id}
                   ingredient={item}
-                  onClick={() => setCurrentIngredient(item)}
+                  onClick={() => handleClick(item)}
                 />
               ))}
             </ul>
           </article>
         </div>
       </section>
-
-      {currentIngredient && (
-        <Modal
-          title="Детали ингредиента"
-          onClose={() => setCurrentIngredient(null)}
-        >
-          <IngredientDetails ingredient={currentIngredient} />
-        </Modal>
-      )}
     </section>
   )
 }
