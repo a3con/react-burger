@@ -6,6 +6,7 @@ import { AppLayout } from '../app-layout/app-layout'
 import { HomePage } from '../../pages/home/home'
 import { Modal } from '../modal/modal'
 import { IngredientDetails } from '../burger-ingredients/ingredient-details/ingredient-details'
+import { LoginPage } from '../../pages/login/login'
 
 export default function App() {
   const dispatch = useAppDispatch()
@@ -24,6 +25,7 @@ export default function App() {
         <Route path="/" element={<AppLayout />}>
           <Route index element={<HomePage />} />
           <Route path="/ingredients/:id" element={<IngredientDetails />} />
+          <Route path="/login" element={<LoginPage />} />
         </Route>
       </Routes>
 
