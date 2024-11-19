@@ -7,6 +7,9 @@ import { HomePage } from '../../pages/home/home'
 import { Modal } from '../modal/modal'
 import { IngredientDetails } from '../burger-ingredients/ingredient-details/ingredient-details'
 import { LoginPage } from '../../pages/login/login'
+import { RegisterPage } from '../../pages/register/register'
+import { ForgotPasswordPage } from '../../pages/forgot-password/forgot-password'
+import { ResetPasswordPage } from '../../pages/reset-password/reset-password'
 
 export default function App() {
   const dispatch = useAppDispatch()
@@ -26,6 +29,9 @@ export default function App() {
           <Route index element={<HomePage />} />
           <Route path="/ingredients/:id" element={<IngredientDetails />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+          <Route path="/reset-password" element={<ResetPasswordPage />} />
         </Route>
       </Routes>
 

@@ -1,23 +1,21 @@
 import { useNavigate } from 'react-router-dom'
-import styles from './login.module.scss'
+import styles from './register.module.scss'
 import {
+  Input,
   EmailInput,
   PasswordInput,
   Button,
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import { useState } from 'react'
 
-export const Login = () => {
+export const Register = () => {
+  const [userName, setUserName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const navigate = useNavigate()
 
-  const handleRegisterClick = () => {
-    navigate('/register')
-  }
-
-  const handlePasswordResetClick = () => {
-    navigate('/forgot-password')
+  const handleLoginClick = () => {
+    navigate('/login')
   }
 
   const handleSubmitForm = (e: React.FormEvent) => {
@@ -27,7 +25,15 @@ export const Login = () => {
   return (
     <div className={styles.chunk}>
       <form className={styles.chunk__form} onSubmit={handleSubmitForm}>
-        <h2 className={styles.chunk__title}>Вход</h2>
+        <h2 className={styles.chunk__title}>Регистрация</h2>
+        <Input
+          type="text"
+          placeholder="Имя"
+          onChange={e => setUserName(e.target.value)}
+          value={userName ?? ''}
+          name="name"
+          size="default"
+        />
         <EmailInput
           onChange={e => setEmail(e.target.value)}
           value={email ?? ''}
@@ -40,32 +46,20 @@ export const Login = () => {
           name="password"
         />
         <Button htmlType="submit" type="primary" size="medium">
-          Войти
+          Зарегистрироваться
         </Button>
       </form>
       <div className={styles.chunk__tools}>
         <div className={styles.chunk__option}>
-          <p>Вы — новый пользователь?</p>
+          <p>Уже зарегистрированы?</p>
           <Button
             extraClass={styles.chunk__action}
             htmlType="button"
             type="secondary"
             size="medium"
-            onClick={handleRegisterClick}
+            onClick={handleLoginClick}
           >
-            Зарегистрироваться
-          </Button>
-        </div>
-        <div className={styles.chunk__option}>
-          <p>Забыли пароль?</p>
-          <Button
-            extraClass={styles.chunk__action}
-            htmlType="button"
-            type="secondary"
-            size="medium"
-            onClick={handlePasswordResetClick}
-          >
-            Восстановить пароль
+            Войти
           </Button>
         </div>
       </div>
