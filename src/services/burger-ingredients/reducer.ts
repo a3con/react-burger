@@ -1,5 +1,4 @@
 import { getIngredients } from './actions'
-//import { createSelector } from 'reselect'
 import { createSlice } from '@reduxjs/toolkit'
 import { IIngredient } from '../../utils/interfaces'
 
