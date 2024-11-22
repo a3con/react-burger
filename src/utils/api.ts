@@ -1,22 +1,32 @@
+import { catchError } from '../utils/catchError'
 import { IUser } from '../utils/interfaces'
 
-export const BASE_URL_API = 'https://norma.nomoreparties.space/api/'
+export const BASE_URL_API = 'https://norma.nomoreparties.space/api'
 
 export const endpoints = {
-  ingredients: BASE_URL_API + 'ingredients', // POST
-  orders: BASE_URL_API + 'orders', // POST
-  passwordReset: BASE_URL_API + 'password-reset', // POST
-  resetPassword: BASE_URL_API + 'password-reset/reset', // POST
-  register: BASE_URL_API + 'auth/register', // POST
-  login: BASE_URL_API + 'auth/login', // POST
-  logout: BASE_URL_API + 'auth/logout', // POST
-  token: BASE_URL_API + 'auth/token', // POST
-  user: BASE_URL_API + 'auth/user', // GET | PATCH
+  ingredients: BASE_URL_API + '/ingredients', // POST
+  orders: BASE_URL_API + '/orders', // POST
+  passwordReset: BASE_URL_API + '/password-reset', // POST !
+  resetPassword: BASE_URL_API + '/password-reset/reset', // POST !
+  register: BASE_URL_API + '/auth/register', // POST
+  login: BASE_URL_API + '/auth/login', // POST
+  logout: BASE_URL_API + '/auth/logout', // POST
+  token: BASE_URL_API + '/auth/token', // POST !
+  user: BASE_URL_API + '/auth/user', // GET | PATCH
 }
 
 export interface IResponseSuccess {
   success: boolean
   message?: string
+}
+
+export interface IRefreshTokenResponse extends IResponseSuccess {
+  accessToken: string
+  refreshToken: string
+}
+
+export interface IUserResponse extends IRefreshTokenResponse {
+  user: IUser
 }
 
 // res.json() as Promise<T> ?
@@ -37,97 +47,163 @@ export const request = <T extends IResponseSuccess>(
     .then(checkSuccess<T>)
 }
 
-export const getUser = async (): Promise<IUser> => {
-  const request: Promise<IUser> = new Promise(resolve => {
-    setTimeout(() => {
-      resolve({})
-    }, 1000)
-  })
-
-  try {
-    return await request
-  } catch (error) {
-    localStorage.removeItem('accessToken')
-    localStorage.removeItem('refreshToken')
-    throw error
-  }
-}
-
-export const login = (): Promise<IUser> =>
-  new Promise(resolve => {
-    setTimeout(() => {
-      localStorage.setItem('accessToken', 'test-token')
-      localStorage.setItem('refreshToken', 'test-refresh-token')
-      resolve({})
-    }, 1000)
-  })
-
-export const logout = (): Promise<void> =>
-  new Promise(resolve => {
-    setTimeout(() => {
-      localStorage.removeItem('accessToken')
-      localStorage.removeItem('refreshToken')
-      resolve()
-    }, 1000)
-  })
-
-export const requestWithRefresh2 = (url: string, options: RequestInit) => {
-  return fetchWithRefresh(url, options)
-}
-
-export const requestWithRefresh = <T extends IResponseSuccess>(
+export const requestWithRefresh = async <T extends IResponseSuccess>(
   url: string,
-  options?: RequestInit,
+  options: RequestInit,
 ): Promise<T> => {
-  return fetchWithRefresh(url, options)
+  const [error, data] = await catchError(request<T>(url, options))
+
+  if (data) return data
+
+  if (error?.message === 'jwt expired') {
+    const [refreshError, refreshData] = await catchError(refreshToken())
+
+    if (refreshError) return Promise.reject(refreshError)
+
+    localStorage.setItem('refreshToken', refreshData.refreshToken)
+    localStorage.setItem('accessToken', refreshData.accessToken)
+
+    options.headers = {
+      ...options.headers,
+      authorization: refreshData.accessToken,
+    }
+
+    return await request(url, options)
+  }
+
+  return Promise.reject(error)
 }
 
 export const refreshToken = () => {
-  return fetch(endpoints.token, {
+  return request<IRefreshTokenResponse>(endpoints.token, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json;charset=utf-8',
-    },
+    headers: { 'Content-Type': 'application/json;charset=utf-8' },
     body: JSON.stringify({
       token: localStorage.getItem('refreshToken'),
     }),
-  }).then(checkResponse)
+  })
 }
 
-export const fetchWithRefresh = async <T extends IResponseSuccess>(
-  url: string,
-  options: RequestInit,
-) => {
-  try {
-    //const res = await fetch(url, options)
-    //return await checkResponse(res)
-    return await fetch(url, options)
-      .then(checkResponse<T>)
-      .then(checkSuccess<T>)
-  } catch (err) {
-    // Specify the type after the colon, not before
-    if (err.message === 'jwt expired') {
-      const refreshData = await refreshToken()
-      if (!refreshData.success) {
-        return Promise.reject(refreshData)
-      }
-      localStorage.setItem('refreshToken', refreshData.refreshToken)
-      localStorage.setItem('accessToken', refreshData.accessToken)
-      options.headers = {
-        ...options.headers,
-        authorization: refreshData.accessToken,
-      }
-      const res = await fetch(url, options)
-      return await checkResponse(res)
-    } else {
-      return Promise.reject(err)
-    }
+// TODO: Перенести в src/services/user/actions.ts
+/* Response
+{
+    "success": true,
+    "user": {
+        "email": "email",
+        "name": "name"
+    },
+    "accessToken": "Bearer token...",
+    "refreshToken": "refreshToken..."
+}
+*/
+export const register = async ({
+  password,
+  email,
+  name,
+}: {
+  password: string
+  email: string
+  name: string
+}) => {
+  const response = await request<IUserResponse>(endpoints.register, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json; charset=utf-8' },
+    body: JSON.stringify({ email, password, name }),
+  })
+  console.log('REGISTER:', response)
+  localStorage.setItem('refreshToken', response.refreshToken)
+  localStorage.setItem('accessToken', response.accessToken)
+  return response.user
+}
+
+export const resetPassword = async ({
+  newPass,
+  confirmCode,
+}: {
+  newPass: string
+  confirmCode: string
+}) => {
+  const response = await request<IUserResponse>(endpoints.resetPassword, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      password: newPass,
+      token: confirmCode,
+    }),
+  })
+  console.log('RESET_PASSWORD:', response)
+}
+
+export const resetPassword2 = async ({ email }: { email: string }) => {
+  const requestBody = { email }
+
+  const response = await fetch(endpoints.passwordReset, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(requestBody),
+  })
+  if (response.ok) {
+    localStorage.setItem('reset_password_process', 'true')
+    //navigate('/reset-password')
+  } else {
+    console.error('Reset email sending failed')
   }
 }
 
+// TODO: Перенести в src/services/user/actions.ts
+export const login = async ({
+  email,
+  password,
+}: {
+  email: string
+  password: string
+}) => {
+  const response = await request<IUserResponse>(endpoints.login, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json; charset=utf-8' },
+    body: JSON.stringify({ email, password }),
+  })
+  console.log('LOGIN:', response)
+  localStorage.setItem('accessToken', response.accessToken)
+  localStorage.setItem('refreshToken', response.refreshToken)
+  return response.user
+}
+
+// TODO: Перенести в src/services/user/actions.ts
+export const logout = async (): Promise<void> => {
+  const token = localStorage.getItem('refreshToken')
+  await request(endpoints.logout, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json;charset=utf-8' },
+    body: JSON.stringify({ token }),
+  })
+  console.log('LOGOUT:')
+  //очистка заказа ???
+  localStorage.removeItem('accessToken')
+  localStorage.removeItem('refreshToken')
+}
+
+// TODO: Перенести в src/services/user/actions.ts
+/* Response
+{"success":true,"user":{"email":"email","name":"name"}}
+*/
+export const getUser = async () => {
+  const response = await requestWithRefresh<IUserResponse>(endpoints.user, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json; charset=utf-8',
+      Authorization: localStorage.getItem('accessToken') || '',
+    },
+  })
+
+  console.log('GET_USER:', response)
+
+  return response.user
+}
+
 export const api = {
-  fetchWithRefresh,
   getUser,
+  register,
   logout,
   login,
 }
