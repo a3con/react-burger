@@ -6,11 +6,14 @@ import {
   Button,
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import { useState } from 'react'
+import { useAppDispatch } from '../../services/store'
+import { login } from '../../services/user/actions'
 
 export const Login = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const navigate = useNavigate()
+  const dispatch = useAppDispatch()
 
   const handleRegisterClick = () => {
     navigate('/register')
@@ -22,6 +25,7 @@ export const Login = () => {
 
   const handleSubmitForm = (e: React.FormEvent) => {
     e.preventDefault()
+    dispatch(login({ email, password }))
   }
 
   return (
@@ -39,7 +43,12 @@ export const Login = () => {
           value={password ?? ''}
           name="password"
         />
-        <Button htmlType="submit" type="primary" size="medium">
+        <Button
+          htmlType="submit"
+          type="primary"
+          size="medium"
+          disabled={!(email && password)}
+        >
           Войти
         </Button>
       </form>

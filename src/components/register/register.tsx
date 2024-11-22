@@ -7,12 +7,15 @@ import {
   Button,
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import { useState } from 'react'
+import { useAppDispatch } from '../../services/store'
+import { register } from '../../services/user/actions'
 
 export const Register = () => {
-  const [userName, setUserName] = useState('')
+  const [name, setUserName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const navigate = useNavigate()
+  const dispatch = useAppDispatch()
 
   const handleLoginClick = () => {
     navigate('/login')
@@ -20,6 +23,18 @@ export const Register = () => {
 
   const handleSubmitForm = (e: React.FormEvent) => {
     e.preventDefault()
+    dispatch(register({ email, password, name }))
+      // Уточнить!!!
+      .then(response => {
+        if (register.fulfilled.match(response)) {
+          navigate('/')
+        } else if (register.rejected.match(response)) {
+          console.error('Registration rejected:', response)
+        }
+      })
+      .catch(error => {
+        console.error('Registration error:', error)
+      })
   }
 
   return (
@@ -30,7 +45,7 @@ export const Register = () => {
           type="text"
           placeholder="Имя"
           onChange={e => setUserName(e.target.value)}
-          value={userName ?? ''}
+          value={name ?? ''}
           name="name"
           size="default"
         />
@@ -45,7 +60,12 @@ export const Register = () => {
           value={password ?? ''}
           name="password"
         />
-        <Button htmlType="submit" type="primary" size="medium">
+        <Button
+          htmlType="submit"
+          type="primary"
+          size="medium"
+          disabled={!(email && password && name)}
+        >
           Зарегистрироваться
         </Button>
       </form>
