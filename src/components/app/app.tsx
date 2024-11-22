@@ -10,6 +10,8 @@ import { LoginPage } from '../../pages/login/login'
 import { RegisterPage } from '../../pages/register/register'
 import { ForgotPasswordPage } from '../../pages/forgot-password/forgot-password'
 import { ResetPasswordPage } from '../../pages/reset-password/reset-password'
+import { OnlyUnAuth } from '../protected-route/protected-route'
+import { checkUserAuth } from '../../services/user/actions'
 
 export default function App() {
   const dispatch = useAppDispatch()
@@ -19,8 +21,11 @@ export default function App() {
   const closeModal = () => navigate(-1)
 
   useEffect(() => {
+    dispatch(checkUserAuth()) // check: 9
     dispatch(getIngredients())
   }, [])
+
+  // check: 8
 
   return (
     <>
@@ -28,10 +33,22 @@ export default function App() {
         <Route path="/" element={<AppLayout />}>
           <Route index element={<HomePage />} />
           <Route path="/ingredients/:id" element={<IngredientDetails />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
-          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-          <Route path="/reset-password" element={<ResetPasswordPage />} />
+          <Route
+            path="/login"
+            element={<OnlyUnAuth component={<LoginPage />} />}
+          />
+          <Route
+            path="/register"
+            element={<OnlyUnAuth component={<RegisterPage />} />}
+          />
+          <Route
+            path="/forgot-password"
+            element={<OnlyUnAuth component={<ForgotPasswordPage />} />}
+          />
+          <Route
+            path="/reset-password"
+            element={<OnlyUnAuth component={<ResetPasswordPage />} />}
+          />
         </Route>
       </Routes>
 
