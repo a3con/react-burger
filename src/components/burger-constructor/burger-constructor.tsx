@@ -64,7 +64,7 @@ export const BurgerConstructor = () => {
     <section className={style.burgerConstructor} ref={drop}>
       <ul
         className={`${style.components} ${
-          (bun === null && ingredients.length < 1) && style.empty
+          bun === null && ingredients.length < 1 && style.empty
         }`}
       >
         {bun !== null && (
@@ -109,6 +109,7 @@ export const BurgerConstructor = () => {
         </div>
         <Button
           onClick={handleModalOpen}
+          disabled={!bun && ingredients.length === 0}
           htmlType="button"
           type="primary"
           size="large"
