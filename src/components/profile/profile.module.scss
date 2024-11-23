@@ -1,0 +1,11 @@
+.profile {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 24px;
+}
+
+.controls {
+  display: flex;
+  justify-content: flex-end;
+}
