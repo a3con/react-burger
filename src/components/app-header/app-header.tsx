@@ -7,6 +7,8 @@ import {
   ProfileIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import { NavLink, useMatch } from 'react-router-dom'
+import { useAppSelector } from '../../services/store'
+import { getUser } from '../../services/user/reducer'
 
 interface INavLinkItemProps {
   icon: React.JSX.Element
@@ -29,6 +31,8 @@ const NavLinkItem = ({ text, to, icon }: INavLinkItemProps) => {
 }
 
 export const AppHeader = () => {
+  const user = useAppSelector(getUser)
+
   return (
     <div className={styles.header}>
       <a href="/" className={styles.logo}>
@@ -54,7 +58,7 @@ export const AppHeader = () => {
       </nav>
       <nav className={styles.user}>
         <NavLinkItem
-          text={'Личный кабинет'}
+          text={user?.name ? user.name : 'Личный кабинет'}
           icon={<ProfileIcon type="primary" />}
           to={'/profile'}
         />
