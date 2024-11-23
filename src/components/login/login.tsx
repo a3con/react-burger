@@ -12,6 +12,8 @@ import { login } from '../../services/user/actions'
 export const Login = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [loginError, setLoginError] = useState(false)
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
 
@@ -25,7 +27,17 @@ export const Login = () => {
 
   const handleSubmitForm = (e: React.FormEvent) => {
     e.preventDefault()
+    setLoading(true)
     dispatch(login({ email, password }))
+      .then(response => {
+        if (login.rejected.match(response)) {
+          setLoginError(true)
+        }
+      })
+      .catch(error => {
+        console.error('Login error:', error)
+      })
+      .finally(() => setLoading(false))
   }
 
   return (
@@ -33,21 +45,30 @@ export const Login = () => {
       <form className={styles.chunk__form} onSubmit={handleSubmitForm}>
         <h2 className={styles.chunk__title}>Вход</h2>
         <EmailInput
-          onChange={e => setEmail(e.target.value)}
+          onChange={e => {
+            setEmail(e.target.value)
+            setLoginError(false)
+          }}
           value={email ?? ''}
           name="email"
           isIcon={false}
         />
         <PasswordInput
-          onChange={e => setPassword(e.target.value)}
+          onChange={e => {
+            setPassword(e.target.value)
+            setLoginError(false)
+          }}
           value={password ?? ''}
           name="password"
         />
+        {loginError && (
+          <p className={styles.error}>Неверный логин или пароль</p>
+        )}
         <Button
           htmlType="submit"
           type="primary"
           size="medium"
-          disabled={!(email && password)}
+          disabled={!(email && password) || loading}
         >
           Войти
         </Button>

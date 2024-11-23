@@ -34,3 +34,7 @@
   }
 }
 
+.error {
+  composes: text text_type_main-default from global;
+  color: var(--colors-interface-error);
+}
