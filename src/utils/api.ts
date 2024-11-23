@@ -52,36 +52,31 @@ export const requestWithRefresh = async <T extends IResponseSuccess>(
   options: RequestInit,
 ): Promise<T> => {
   const [error, data] = await catchError(request<T>(url, options))
-
   if (data) return data
-
   if (error?.message === 'jwt expired') {
-    const [refreshError, refreshData] = await catchError(refreshToken())
-
+    const [refreshError, refreshData] = await catchError(refreshToken()) // update tokens
     if (refreshError) return Promise.reject(refreshError)
-
-    localStorage.setItem('refreshToken', refreshData.refreshToken)
-    localStorage.setItem('accessToken', refreshData.accessToken)
-
     options.headers = {
       ...options.headers,
       authorization: refreshData.accessToken,
     }
-
-    return await request(url, options)
+    return await request(url, options) // repeat request
   }
-
   return Promise.reject(error)
 }
 
-export const refreshToken = () => {
-  return request<IRefreshTokenResponse>(endpoints.token, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json;charset=utf-8' },
-    body: JSON.stringify({
-      token: localStorage.getItem('refreshToken'),
+export const refreshToken = async () => {
+  const [error, refreshData] = await catchError(
+    request<IRefreshTokenResponse>(endpoints.token, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json;charset=utf-8' },
+      body: JSON.stringify({ token: localStorage.getItem('refreshToken') }),
     }),
-  })
+  )
+  if (error) return Promise.reject(error)
+  localStorage.setItem('refreshToken', refreshData.refreshToken)
+  localStorage.setItem('accessToken', refreshData.accessToken)
+  return refreshData
 }
 
 // TODO: Перенести в src/services/user/actions.ts
@@ -132,21 +127,21 @@ export const resetPassword = async ({
   })
 }
 
-export const resetPassword2 = async ({ email }: { email: string }) => {
-  const requestBody = { email }
+// export const resetPassword2 = async ({ email }: { email: string }) => {
+//   const requestBody = { email }
 
-  const response = await fetch(endpoints.passwordReset, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(requestBody),
-  })
-  if (response.ok) {
-    localStorage.setItem('reset_password_process', 'true')
-    //navigate('/reset-password')
-  } else {
-    console.error('Reset email sending failed')
-  }
-}
+//   const response = await fetch(endpoints.passwordReset, {
+//     method: 'POST',
+//     headers: { 'Content-Type': 'application/json' },
+//     body: JSON.stringify(requestBody),
+//   })
+//   if (response.ok) {
+//     localStorage.setItem('reset_password_process', 'true')
+//     //navigate('/reset-password')
+//   } else {
+//     console.error('Reset email sending failed')
+//   }
+// }
 
 // TODO: Перенести в src/services/user/actions.ts
 export const login = async ({
