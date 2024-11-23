@@ -7,7 +7,7 @@ export const endpoints = {
   ingredients: BASE_URL_API + '/ingredients', // POST
   orders: BASE_URL_API + '/orders', // POST
   passwordReset: BASE_URL_API + '/password-reset', // POST !
-  resetPassword: BASE_URL_API + '/password-reset/reset', // POST !
+  passwordUpdate: BASE_URL_API + '/password-reset/reset', // POST !
   register: BASE_URL_API + '/auth/register', // POST
   login: BASE_URL_API + '/auth/login', // POST
   logout: BASE_URL_API + '/auth/logout', // POST
@@ -110,38 +110,30 @@ export const register = async ({
   return response.user
 }
 
-export const resetPassword = async ({
-  newPass,
+export const updatePassword = async ({
+  newPassword,
   confirmCode,
 }: {
-  newPass: string
+  newPassword: string
   confirmCode: string
 }) => {
-  await request<IUserResponse>(endpoints.resetPassword, {
+  return await request<IResponseSuccess>(endpoints.passwordUpdate, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      password: newPass,
+      password: newPassword,
       token: confirmCode,
     }),
   })
 }
 
-// export const resetPassword2 = async ({ email }: { email: string }) => {
-//   const requestBody = { email }
-
-//   const response = await fetch(endpoints.passwordReset, {
-//     method: 'POST',
-//     headers: { 'Content-Type': 'application/json' },
-//     body: JSON.stringify(requestBody),
-//   })
-//   if (response.ok) {
-//     localStorage.setItem('reset_password_process', 'true')
-//     //navigate('/reset-password')
-//   } else {
-//     console.error('Reset email sending failed')
-//   }
-// }
+export const resetPassword = async ({ email }: { email: string }) => {
+  return await request<IResponseSuccess>(endpoints.passwordReset, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email }),
+  })
+}
 
 // TODO: Перенести в src/services/user/actions.ts
 export const login = async ({

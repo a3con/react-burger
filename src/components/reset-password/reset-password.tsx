@@ -5,20 +5,36 @@ import {
   PasswordInput,
   Button,
 } from '@ya.praktikum/react-developer-burger-ui-components'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { updatePassword } from '../../utils/api'
 
 export const ResetPassword = () => {
   const [newPassword, setNewPassword] = useState('')
   const [confirmCode, setConfirmCode] = useState('')
+  const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
 
-  const handleLoginClick = () => {
+  const goToLoginPage = () => {
     navigate('/login')
   }
 
   const handleSubmitForm = (e: React.FormEvent) => {
     e.preventDefault()
+    setLoading(true)
+    updatePassword({ newPassword, confirmCode })
+      .then(() => {
+        localStorage.removeItem('isResetPassword')
+        goToLoginPage()
+      })
+      .finally(() => setLoading(false))
   }
+
+  useEffect(() => {
+    const isResetPassword = localStorage.getItem('isResetPassword')
+    if (isResetPassword !== 'true') {
+     navigate('/forgot-password')
+    }
+  }, [])
 
   return (
     <div className={styles.chunk}>
@@ -38,7 +54,12 @@ export const ResetPassword = () => {
           name="token"
           size="default"
         />
-        <Button htmlType="submit" type="primary" size="medium">
+        <Button
+          htmlType="submit"
+          type="primary"
+          size="medium"
+          disabled={loading}
+        >
           Сохранить
         </Button>
       </form>
@@ -50,7 +71,7 @@ export const ResetPassword = () => {
             htmlType="button"
             type="secondary"
             size="medium"
-            onClick={handleLoginClick}
+            onClick={goToLoginPage}
           >
             Войти
           </Button>
