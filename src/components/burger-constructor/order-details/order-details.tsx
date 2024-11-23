@@ -1,13 +1,13 @@
 import iconChecked from '../../../images/checked.svg'
 import { useAppSelector } from '../../../services/store'
-import style from './order-details.module.scss'
+import styles from './order-details.module.scss'
 
 export const OrderDetails = () => {
   const { loading, orderNumber } = useAppSelector(state => state.order)
 
   return (
-    <div className={style.order}>
-      <p className={`${style.order__id} text text_type_digits-large mt-4 mb-8`}>
+    <div className={styles.order}>
+      <p className={`${styles.order__id} text text_type_digits-large mt-4 mb-8`}>
         {orderNumber}
       </p>
       <p className="text text_type_main-medium">идентификатор заказа</p>

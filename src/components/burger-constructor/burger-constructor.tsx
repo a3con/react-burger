@@ -15,7 +15,7 @@ import {
   CurrencyIcon,
   Button,
 } from '@ya.praktikum/react-developer-burger-ui-components'
-import style from './burger-constructor.module.scss'
+import styles from './burger-constructor.module.scss'
 import { OrderDetails } from './order-details/order-details'
 
 export const BurgerConstructor = () => {
@@ -55,10 +55,10 @@ export const BurgerConstructor = () => {
   })
 
   return (
-    <section className={style.burgerConstructor} ref={drop}>
+    <section className={styles.burgerConstructor} ref={drop}>
       <ul
-        className={`${style.components} ${
-          (bun === null && ingredients.length < 1) && style.empty
+        className={`${styles.components} ${
+          (bun === null && ingredients.length < 1) && styles.empty
         }`}
       >
         {bun !== null && (
@@ -70,8 +70,8 @@ export const BurgerConstructor = () => {
             thumbnail={bun.image}
           />
         )}
-        <li className={style.stuffing}>
-          <ul className={style.list}>
+        <li className={styles.stuffing}>
+          <ul className={styles.list}>
             {ingredients.map((ingredient, index) => (
               <OrderItem
                 index={index}
@@ -96,8 +96,8 @@ export const BurgerConstructor = () => {
         )}
       </ul>
 
-      <div className={style.info}>
-        <div className={style.info__price}>
+      <div className={styles.info}>
+        <div className={styles.info__price}>
           <span className="text text_type_digits-medium">{getTotalPrice}</span>
           <CurrencyIcon type="primary" />
         </div>

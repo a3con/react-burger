@@ -8,7 +8,7 @@ import {
 } from '../../../services/burger-constructor/reducer'
 import { useDrop, useDrag } from 'react-dnd'
 import { useAppDispatch } from '../../../services/store'
-import style from './order-item.module.scss'
+import styles from './order-item.module.scss'
 
 interface IOrderItemProps {
   type?: 'top' | 'bottom'
@@ -56,11 +56,11 @@ export const OrderItem = ({
 
   return (
     <li
-      className={`${style.ingredient} ${!isLocked && style.dragCursor}`}
+      className={`${styles.ingredient} ${!isLocked && styles.dragCursor}`}
       style={{ opacity: isDragging ? 0.5 : 1 }}
       ref={node => (isLocked ? null : drag(drop(node)))}
     >
-      <div className={style.drag}>
+      <div className={styles.drag}>
         {!isLocked && <DragIcon type="primary" />}
       </div>
       <ConstructorElement

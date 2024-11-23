@@ -1,13 +1,13 @@
 import { AppHeader } from '../app-header/app-header'
 import { Outlet } from 'react-router-dom'
-import style from './app-layout.module.scss'
+import styles from './app-layout.module.scss'
 export const AppLayout = () => {
   return (
     <>
-      <header className={style.header}>
+      <header className={styles.header}>
         <AppHeader />
       </header>
-      <main className={style.content}>
+      <main className={styles.content}>
         <Outlet />
       </main>
     </>

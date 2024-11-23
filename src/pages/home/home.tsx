@@ -2,7 +2,7 @@ import { BurgerConstructor } from '../../components/burger-constructor/burger-co
 import { BurgerIngredients } from '../../components/burger-ingredients/burger-ingredients'
 import { useAppSelector } from '../../services/store'
 import { loadIngredients } from '../../services/burger-ingredients/reducer'
-import style from './home.module.scss'
+import styles from './home.module.scss'
 
 export const HomePage = () => {
   const { loading, error } = useAppSelector(loadIngredients)
@@ -10,9 +10,9 @@ export const HomePage = () => {
   return (
     <>
       {loading ? (
-        <p className={style.status}>Загрузка...</p>
+        <p className={styles.status}>Загрузка...</p>
       ) : error ? (
-        <p className={style.status}>Что-то пошло не так :(</p>
+        <p className={styles.status}>Что-то пошло не так :(</p>
       ) : (
         <>
           <BurgerIngredients />
