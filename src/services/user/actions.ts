@@ -51,7 +51,6 @@ export const login = createAsyncThunk(
       headers: { 'Content-Type': 'application/json; charset=utf-8' },
       body: JSON.stringify({ email, password }),
     })
-    console.log('LOGIN:', response)
     localStorage.setItem('accessToken', response.accessToken)
     localStorage.setItem('refreshToken', response.refreshToken)
     return response.user
@@ -65,7 +64,6 @@ export const logout = createAsyncThunk('user/logout', async () => {
     headers: { 'Content-Type': 'application/json;charset=utf-8' },
     body: JSON.stringify({ token }),
   })
-  console.log('LOGOUT:')
   //очистка заказа ???
   localStorage.removeItem('accessToken')
   localStorage.removeItem('refreshToken')
@@ -82,7 +80,6 @@ export const logout = createAsyncThunk('user/logout', async () => {
 //       Authorization: localStorage.getItem('accessToken') || '',
 //     },
 //   })
-//   console.log('GET_USER:', response)
 //   return response.user
 // })
 
@@ -118,7 +115,6 @@ export const patchUser = createAsyncThunk(
       },
       body: JSON.stringify({ name, email, password }),
     })
-    console.log('PATCH_USER:', response)
     dispatch(setUser(response.user))
     return response.user
   },

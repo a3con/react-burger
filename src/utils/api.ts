@@ -110,7 +110,6 @@ export const register = async ({
     headers: { 'Content-Type': 'application/json; charset=utf-8' },
     body: JSON.stringify({ email, password, name }),
   })
-  console.log('REGISTER:', response)
   localStorage.setItem('refreshToken', response.refreshToken)
   localStorage.setItem('accessToken', response.accessToken)
   return response.user
@@ -123,7 +122,7 @@ export const resetPassword = async ({
   newPass: string
   confirmCode: string
 }) => {
-  const response = await request<IUserResponse>(endpoints.resetPassword, {
+  await request<IUserResponse>(endpoints.resetPassword, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -131,7 +130,6 @@ export const resetPassword = async ({
       token: confirmCode,
     }),
   })
-  console.log('RESET_PASSWORD:', response)
 }
 
 export const resetPassword2 = async ({ email }: { email: string }) => {
@@ -163,7 +161,6 @@ export const login = async ({
     headers: { 'Content-Type': 'application/json; charset=utf-8' },
     body: JSON.stringify({ email, password }),
   })
-  console.log('LOGIN:', response)
   localStorage.setItem('accessToken', response.accessToken)
   localStorage.setItem('refreshToken', response.refreshToken)
   return response.user
@@ -177,7 +174,6 @@ export const logout = async (): Promise<void> => {
     headers: { 'Content-Type': 'application/json;charset=utf-8' },
     body: JSON.stringify({ token }),
   })
-  console.log('LOGOUT:')
   //очистка заказа ???
   localStorage.removeItem('accessToken')
   localStorage.removeItem('refreshToken')
@@ -195,9 +191,6 @@ export const getUser = async () => {
       Authorization: localStorage.getItem('accessToken') || '',
     },
   })
-
-  console.log('GET_USER:', response)
-
   return response.user
 }
 
