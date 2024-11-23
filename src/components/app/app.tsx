@@ -16,6 +16,7 @@ import { ProfilePage } from '../../pages/profile/profile'
 import { Profile } from '../profile/profile'
 import { ProfileOrders } from '../profile/orders/orders'
 import { ProfileOrderDetails } from '../profile/order-details/order-details'
+import { FeedPage } from '../../pages/feed/feed'
 
 export default function App() {
   const dispatch = useAppDispatch()
@@ -36,6 +37,7 @@ export default function App() {
       <Routes location={background || location}>
         <Route path="/" element={<AppLayout />}>
           <Route index element={<HomePage />} />
+          <Route path="/feed" element={<FeedPage />} />
           <Route path="/ingredients/:id" element={<IngredientDetails />} />
           <Route
             path="/login"
