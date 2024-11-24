@@ -1,20 +1,16 @@
 import { useState, useRef } from 'react'
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 import { IngredientItem } from './ingredient-item/ingredient-item'
-import { IngredientDetails } from './ingredient-details/ingredient-details'
-import { Modal } from '../modal/modal'
-import style from './burger-ingredients.module.scss'
+import styles from './burger-ingredients.module.scss'
 import { IIngredient } from '../../utils/interfaces'
 import { RefObject } from 'react'
+import { useAppSelector } from '../../services/store'
+import { loadIngredients } from '../../services/burger-ingredients/reducer'
+import { useLocation, useNavigate } from 'react-router-dom'
 
-export const BurgerIngredients = ({
-  ingredients,
-}: {
-  ingredients: IIngredient[]
-}) => {
+export const BurgerIngredients = () => {
+  const { ingredients } = useAppSelector(loadIngredients)
   const [currentTab, setCurrentTab] = useState('buns')
-  const [currentIngredient, setCurrentIngredient] =
-    useState<IIngredient | null>(null)
 
   const bunsRef = useRef<HTMLDivElement>(null)
   const saucesRef = useRef<HTMLDivElement>(null)
@@ -24,6 +20,15 @@ export const BurgerIngredients = ({
   const bunItems = ingredients.filter(item => item.type === 'bun')
   const sauceItems = ingredients.filter(item => item.type === 'sauce')
   const mainItems = ingredients.filter(item => item.type === 'main')
+
+  const location = useLocation()
+  const navigate = useNavigate()
+
+  const handleClick = (ingredient: IIngredient) => {
+    navigate(`/ingredients/${ingredient._id}`, {
+      state: { background: location },
+    })
+  }
 
   // Как правильно HTMLDivElement или HTMLElement? Ведь можно применить ref не только к <div>?
   const scrollToCategory = (ref: RefObject<HTMLDivElement>) => {
@@ -67,10 +72,10 @@ export const BurgerIngredients = ({
   }
 
   return (
-    <section className={style.ingredients}>
-      <header className={style.header}>
-        <h1 className={style.title}>Соберите бургер</h1>
-        <nav className={style.tabs}>
+    <section className={styles.ingredients}>
+      <header className={styles.header}>
+        <h1 className={styles.title}>Соберите бургер</h1>
+        <nav className={styles.tabs}>
           <Tab
             value="buns"
             active={currentTab === 'buns'}
@@ -104,57 +109,48 @@ export const BurgerIngredients = ({
         </nav>
       </header>
 
-      <section className={style.categories}>
-        <div className={style.views} ref={viewsRef} onScroll={handleScroll}>
-          <article className={style.category} ref={bunsRef}>
-            <h2 className={style.category__title}>Булки</h2>
-            <ul className={style.list}>
+      <section className={styles.categories}>
+        <div className={styles.views} ref={viewsRef} onScroll={handleScroll}>
+          <article className={styles.category} ref={bunsRef}>
+            <h2 className={styles.category__title}>Булки</h2>
+            <ul className={styles.list}>
               {bunItems.map(item => (
                 <IngredientItem
                   key={item._id}
                   ingredient={item}
-                  onClick={() => setCurrentIngredient(item)}
+                  onClick={() => handleClick(item)}
                 />
               ))}
             </ul>
           </article>
 
-          <article className={style.category} ref={saucesRef}>
-            <h2 className={style.category__title}>Соусы</h2>
-            <ul className={style.list}>
+          <article className={styles.category} ref={saucesRef}>
+            <h2 className={styles.category__title}>Соусы</h2>
+            <ul className={styles.list}>
               {sauceItems.map(item => (
                 <IngredientItem
                   key={item._id}
                   ingredient={item}
-                  onClick={() => setCurrentIngredient(item)}
+                  onClick={() => handleClick(item)}
                 />
               ))}
             </ul>
           </article>
 
-          <article className={style.category} ref={fillingsRef}>
-            <h2 className={style.category__title}>Начинки</h2>
-            <ul className={style.list}>
+          <article className={styles.category} ref={fillingsRef}>
+            <h2 className={styles.category__title}>Начинки</h2>
+            <ul className={styles.list}>
               {mainItems.map(item => (
                 <IngredientItem
                   key={item._id}
                   ingredient={item}
-                  onClick={() => setCurrentIngredient(item)}
+                  onClick={() => handleClick(item)}
                 />
               ))}
             </ul>
           </article>
         </div>
       </section>
-
-      {currentIngredient && (
-        <Modal
-          title="Детали ингредиента"
-          onClose={() => setCurrentIngredient(null)}
-        >
-          <IngredientDetails ingredient={currentIngredient} />
-        </Modal>
-      )}
     </section>
   )
 }

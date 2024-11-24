@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { request, endpoints } from '../../utils/api'
+import { endpoints, requestWithRefresh } from '../../utils/api'
 import type { IResponseSuccess } from '../../utils/api'
 import type { IStateOrder } from './reducer'
 
@@ -23,6 +23,7 @@ export const requestOrderNumber = createAsyncThunk(
 
     const headers = new Headers()
     headers.append('Content-Type', 'application/json; charset=utf-8')
+    headers.append('Authorization', localStorage.getItem('accessToken') || '')
 
     const requestOptions: RequestInit = {
       method: 'POST',
@@ -32,7 +33,7 @@ export const requestOrderNumber = createAsyncThunk(
       }),
     }
 
-    const response = await request<IOrderNumberRequest>(
+    const response = await requestWithRefresh<IOrderNumberRequest>(
       endpoints.orders,
       requestOptions,
     )

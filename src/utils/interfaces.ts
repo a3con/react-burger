@@ -12,3 +12,9 @@ export interface IIngredient {
   image_large: string;
   __v: number;
 }
+
+export interface IUser {
+  name: string
+  email: string
+  password?: string
+}

@@ -17,12 +17,14 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import style from './burger-constructor.module.scss'
 import { OrderDetails } from './order-details/order-details'
+import { useNavigate } from 'react-router-dom'
 
 export const BurgerConstructor = () => {
   const { bun, ingredients } = useAppSelector(state => state.order)
   const [showOrderModal, setShowOrderModal] = useState(false)
-
+  const user = useAppSelector(state => state.user.user)
   const dispatch = useAppDispatch()
+  const navigate = useNavigate()
 
   const getTotalPrice = useMemo(() => {
     const totalPrice =
@@ -32,8 +34,12 @@ export const BurgerConstructor = () => {
   }, [ingredients, bun])
 
   const handleModalOpen = () => {
-    dispatch(requestOrderNumber())
-    setShowOrderModal(true)
+    if (!user) {
+      navigate('/login')
+    } else {
+      dispatch(requestOrderNumber())
+      setShowOrderModal(true)
+    }
   }
 
   const handleModalClose = () => {
@@ -58,7 +64,7 @@ export const BurgerConstructor = () => {
     <section className={style.burgerConstructor} ref={drop}>
       <ul
         className={`${style.components} ${
-          (bun === null && ingredients.length < 1) && style.empty
+          bun === null && ingredients.length < 1 && style.empty
         }`}
       >
         {bun !== null && (
@@ -103,6 +109,7 @@ export const BurgerConstructor = () => {
         </div>
         <Button
           onClick={handleModalOpen}
+          disabled={!bun && ingredients.length === 0}
           htmlType="button"
           type="primary"
           size="large"

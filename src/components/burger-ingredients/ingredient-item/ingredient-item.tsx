@@ -6,7 +6,7 @@ import { useAppSelector } from '../../../services/store'
 import { IIngredient } from '../../../utils/interfaces'
 import { useDrag } from 'react-dnd'
 
-import style from './ingredient-item.module.scss'
+import styles from './ingredient-item.module.scss'
 
 interface IIngredientItemProps {
   ingredient: IIngredient
@@ -28,7 +28,7 @@ export const IngredientItem = ({
   })
 
   return (
-    <li className={style.ingredient} onClick={onClick} ref={dragRef}>
+    <li className={styles.ingredient} onClick={onClick} ref={dragRef}>
       {count > 0 && <Counter count={count} size="default" extraClass="m-1" />}
       <div>
         <img
@@ -38,13 +38,13 @@ export const IngredientItem = ({
           height="120"
         />
       </div>
-      <div className={style.price}>
+      <div className={styles.price}>
         <span className="text text_type_digits-default">
           {ingredient.price}
         </span>
         <CurrencyIcon type="primary" />
       </div>
-      <span className={style.name}>{ingredient.name}</span>
+      <span className={styles.name}>{ingredient.name}</span>
     </li>
   )
 }
