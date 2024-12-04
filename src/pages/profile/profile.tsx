@@ -50,7 +50,7 @@ export const ProfilePage = () => {
           <br /> изменить свои персональные данные
         </p>
       </nav>
-      <div className={styles.profile__profile}>
+      <div className={styles.profile__content}>
         <Outlet />
       </div>
     </section>
