@@ -61,8 +61,11 @@ export default function App() {
           >
             <Route index element={<Profile />} />
             <Route path="orders" element={<ProfileOrders />} />
-            <Route path="orders/:id" element={<ProfileOrderDetails />} />
           </Route>
+          <Route
+            path="/profile/orders/:id"
+            element={<OnlyAuth component={<ProfileOrderDetails />} />}
+          />
         </Route>
       </Routes>
 
@@ -71,8 +74,16 @@ export default function App() {
           <Route
             path="/ingredients/:id"
             element={
-              <Modal title={'Детали ингредиента'} onClose={closeModal}>
+              <Modal onClose={closeModal}>
                 <IngredientDetails />
+              </Modal>
+            }
+          />
+          <Route
+            path="/profile/orders/:id"
+            element={
+              <Modal onClose={closeModal}>
+                <OnlyAuth component={<ProfileOrderDetails />} />
               </Modal>
             }
           />
