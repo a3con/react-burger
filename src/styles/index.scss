@@ -36,6 +36,8 @@
   grid-template-rows: min-content 1fr;
 
   background-color: #131316;
+  position: relative;
+  z-index: 1;
 }
 
 #root::before {
@@ -43,4 +45,45 @@
   height: 100vh;
   grid-column: 1 / -1;
   grid-row: 1 / span 2;
+}
+
+#modals {
+  position: relative;
+  z-index: 2;
+}
+
+@mixin context-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-bottom: 20px;
+  min-height: 64px;
+
+  [data-context='modal'] & {
+    justify-content: start;
+  }
+}
+
+@mixin preview-badge {
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  height: 64px;
+  width: 64px;
+
+  /* prettier-ignore */
+  background:
+    linear-gradient(#131316, #131316) padding-box,
+    linear-gradient(45deg, #801ab2, #4c4cff) border-box;
+  border: 2px solid transparent;
+  border-radius: 50%;
+
+  & > img {
+    object-fit: cover;
+    display: block;
+    height: 56px;
+    width: 100%;
+  }
 }

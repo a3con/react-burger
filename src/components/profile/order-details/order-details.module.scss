@@ -1,0 +1,92 @@
+@use '../../../styles' as styles;
+
+.details {
+  margin: 120px auto;
+  width: 640px;
+
+  [data-context='modal'] & {
+    margin: 0;
+  }
+
+  &__id {
+    composes: text text_type_digits-default from global;
+
+    @include styles.context-title;
+  }
+
+  &__head {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 70px;
+
+    [data-context='modal'] & {
+      margin-bottom: 60px;
+    }
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    margin-bottom: 40px;
+  }
+
+  &__footer {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__title {
+    composes: text text_type_main-medium from global;
+  }
+
+  &__name {
+    composes: text text_type_main-default from global;
+  }
+
+  &__status {
+    composes: text text_type_main-default from global;
+
+    color: var(--colors-interface-success);
+  }
+
+  &__date {
+    composes: text text_type_main-default text_color_inactive from global;
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    padding-inline-end: 20px;
+    margin: 0;
+    max-height: 304px;
+
+    list-style: none;
+    overflow: auto;
+  }
+
+  &__item {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+
+    &_ingredient {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    &_price {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+  }
+
+  &__img {
+    @include styles.preview-badge;
+  }
+}

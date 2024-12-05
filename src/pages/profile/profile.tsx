@@ -1,10 +1,10 @@
 import { Link, NavLink, Outlet } from 'react-router-dom'
-import styles from './profile.module.scss'
-import { useAppDispatch } from '../../services/store'
+import { useDispatch } from '../../services/store'
 import { logout } from '../../services/user/actions'
+import styles from './profile.module.scss'
 
-export const ProfilePage = () => {
-  const dispatch = useAppDispatch()
+export const ProfilePage = (): React.JSX.Element => {
+  const dispatch = useDispatch()
 
   const handleLogout = () => {
     dispatch(logout())
@@ -50,7 +50,7 @@ export const ProfilePage = () => {
           <br /> изменить свои персональные данные
         </p>
       </nav>
-      <div className={styles.profile__profile}>
+      <div className={styles.profile__content}>
         <Outlet />
       </div>
     </section>

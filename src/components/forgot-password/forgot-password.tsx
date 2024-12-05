@@ -1,13 +1,13 @@
 import { useNavigate } from 'react-router-dom'
-import styles from './forgot-password.module.scss'
 import {
-  EmailInput,
   Button,
+  EmailInput,
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import { useEffect, useState } from 'react'
 import { resetPassword } from '../../utils/api'
+import styles from './forgot-password.module.scss'
 
-export const ForgotPassword = () => {
+export const ForgotPassword = (): React.JSX.Element => {
   const [email, setEmail] = useState('')
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()

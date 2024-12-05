@@ -1,11 +1,11 @@
 import { BurgerConstructor } from '../../components/burger-constructor/burger-constructor'
 import { BurgerIngredients } from '../../components/burger-ingredients/burger-ingredients'
-import { useAppSelector } from '../../services/store'
+import { useSelector } from '../../services/store'
 import { loadIngredients } from '../../services/burger-ingredients/reducer'
 import styles from './home.module.scss'
 
-export const HomePage = () => {
-  const { loading, error } = useAppSelector(loadIngredients)
+export const HomePage = (): React.JSX.Element => {
+  const { loading, error } = useSelector(loadIngredients)
 
   return (
     <>

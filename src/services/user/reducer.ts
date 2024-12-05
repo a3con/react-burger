@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { login, logout } from './actions'
 import { IUser } from '../../utils/interfaces'
 
-type IUserState = {
+interface IUserState {
   user: IUser | null
   isAuthChecked: boolean
   //loading: boolean

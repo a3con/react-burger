@@ -1,21 +1,29 @@
 import { useState, useRef } from 'react'
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 import { IngredientItem } from './ingredient-item/ingredient-item'
-import styles from './burger-ingredients.module.scss'
 import { IIngredient } from '../../utils/interfaces'
 import { RefObject } from 'react'
-import { useAppSelector } from '../../services/store'
+import { useSelector } from '../../services/store'
 import { loadIngredients } from '../../services/burger-ingredients/reducer'
 import { useLocation, useNavigate } from 'react-router-dom'
+import styles from './burger-ingredients.module.scss'
 
-export const BurgerIngredients = () => {
-  const { ingredients } = useAppSelector(loadIngredients)
-  const [currentTab, setCurrentTab] = useState('buns')
+enum IngredientTabs {
+  buns,
+  sauces,
+  fillings,
+}
 
-  const bunsRef = useRef<HTMLDivElement>(null)
-  const saucesRef = useRef<HTMLDivElement>(null)
-  const fillingsRef = useRef<HTMLDivElement>(null)
-  const viewsRef = useRef<HTMLDivElement>(null)
+type TIngredientTabs = keyof typeof IngredientTabs
+
+export const BurgerIngredients = (): React.JSX.Element => {
+  const { ingredients } = useSelector(loadIngredients)
+  const [currentTab, setCurrentTab] = useState<TIngredientTabs>('buns')
+
+  const bunsRef = useRef<HTMLDivElement | null>(null)
+  const saucesRef = useRef<HTMLDivElement | null>(null)
+  const fillingsRef = useRef<HTMLDivElement | null>(null)
+  const viewsRef = useRef<HTMLDivElement | null>(null)
 
   const bunItems = ingredients.filter(item => item.type === 'bun')
   const sauceItems = ingredients.filter(item => item.type === 'sauce')
@@ -48,7 +56,7 @@ export const BurgerIngredients = () => {
       viewsRef.current
     ) {
       const viewBox = viewsRef.current.getBoundingClientRect()
-      const tabsBox: [string, DOMRect][] = [
+      const tabsBox: [TIngredientTabs, DOMRect][] = [
         ['buns', bunsRef.current.getBoundingClientRect()],
         ['sauces', saucesRef.current.getBoundingClientRect()],
         ['fillings', fillingsRef.current.getBoundingClientRect()],

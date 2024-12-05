@@ -1,14 +1,14 @@
 import { cloneElement } from 'react'
-import styles from './app-header.module.scss'
 import {
   Logo,
-  BurgerIcon,
   ListIcon,
+  BurgerIcon,
   ProfileIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import { NavLink, useMatch } from 'react-router-dom'
-import { useAppSelector } from '../../services/store'
+import { useSelector } from '../../services/store'
 import { getUser } from '../../services/user/reducer'
+import styles from './app-header.module.scss'
 
 interface INavLinkItemProps {
   icon: React.JSX.Element
@@ -16,13 +16,17 @@ interface INavLinkItemProps {
   to: string
 }
 
-const NavLinkItem = ({ text, to, icon }: INavLinkItemProps) => {
+const NavLinkItem = ({
+  to,
+  text,
+  icon,
+}: INavLinkItemProps): React.JSX.Element => {
   const isRouteMatch = useMatch(to + '/*')
 
   return (
     <NavLink
       to={to}
-      className={`${styles.link} ${isRouteMatch && styles.active}`}
+      className={`${styles.link} ${isRouteMatch ? styles.active : ''}`}
     >
       {cloneElement(icon, { type: isRouteMatch ? 'primary' : 'secondary' })}
       <span>{text}</span>
@@ -31,13 +35,13 @@ const NavLinkItem = ({ text, to, icon }: INavLinkItemProps) => {
 }
 
 export const AppHeader = () => {
-  const user = useAppSelector(getUser)
+  const user = useSelector(getUser)
 
   return (
     <div className={styles.header}>
-      <a href="/" className={styles.logo}>
+      <NavLink to="/" className={styles.logo}>
         <Logo />
-      </a>
+      </NavLink>
       <nav className={styles.nav}>
         <ul className={styles.menu}>
           <li>

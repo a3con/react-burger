@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { useAppDispatch } from '../../services/store'
+import { useDispatch } from '../../services/store'
 import { getIngredients } from '../../services/burger-ingredients/actions'
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom'
 import { AppLayout } from '../app-layout/app-layout'
@@ -18,19 +18,18 @@ import { ProfileOrders } from '../profile/orders/orders'
 import { ProfileOrderDetails } from '../profile/order-details/order-details'
 import { FeedPage } from '../../pages/feed/feed'
 
-export default function App() {
-  const dispatch = useAppDispatch()
+export default function App(): React.JSX.Element {
+  const dispatch = useDispatch()
   const location = useLocation()
   const background = location.state && location.state.background
   const navigate = useNavigate()
   const closeModal = () => navigate(-1)
 
   useEffect(() => {
-    dispatch(checkUserAuth()) // check: 9
+    dispatch(checkUserAuth())
     dispatch(getIngredients())
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-
-  // check: 8
 
   return (
     <>
@@ -61,8 +60,11 @@ export default function App() {
           >
             <Route index element={<Profile />} />
             <Route path="orders" element={<ProfileOrders />} />
-            <Route path="orders/:id" element={<ProfileOrderDetails />} />
           </Route>
+          <Route
+            path="/profile/orders/:id"
+            element={<OnlyAuth component={<ProfileOrderDetails />} />}
+          />
         </Route>
       </Routes>
 
@@ -71,8 +73,16 @@ export default function App() {
           <Route
             path="/ingredients/:id"
             element={
-              <Modal title={'Детали ингредиента'} onClose={closeModal}>
+              <Modal onClose={closeModal}>
                 <IngredientDetails />
+              </Modal>
+            }
+          />
+          <Route
+            path="/profile/orders/:id"
+            element={
+              <Modal onClose={closeModal}>
+                <OnlyAuth component={<ProfileOrderDetails />} />
               </Modal>
             }
           />

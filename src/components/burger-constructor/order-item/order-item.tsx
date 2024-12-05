@@ -7,7 +7,7 @@ import {
   removeIngredient,
 } from '../../../services/burger-constructor/reducer'
 import { useDrop, useDrag } from 'react-dnd'
-import { useAppDispatch } from '../../../services/store'
+import { useDispatch } from '../../../services/store'
 import styles from './order-item.module.scss'
 
 interface IOrderItemProps {
@@ -28,8 +28,8 @@ export const OrderItem = ({
   index,
   isLocked,
   thumbnail,
-}: IOrderItemProps) => {
-  const dispatch = useAppDispatch()
+}: IOrderItemProps): React.JSX.Element => {
+  const dispatch = useDispatch()
 
   const handleRemove = () => {
     !isLocked && uuid && dispatch(removeIngredient(uuid))
@@ -56,7 +56,7 @@ export const OrderItem = ({
 
   return (
     <li
-      className={`${styles.ingredient} ${!isLocked && styles.dragCursor}`}
+      className={`${styles.ingredient} ${!isLocked ? styles.dragCursor : ''}`}
       style={{ opacity: isDragging ? 0.5 : 1 }}
       ref={node => (isLocked ? null : drag(drop(node)))}
     >

@@ -1,11 +1,8 @@
-import {
-  CurrencyIcon,
-  Counter,
-} from '@ya.praktikum/react-developer-burger-ui-components'
-import { useAppSelector } from '../../../services/store'
+import { Counter } from '@ya.praktikum/react-developer-burger-ui-components'
+import { useSelector } from '../../../services/store'
 import { IIngredient } from '../../../utils/interfaces'
 import { useDrag } from 'react-dnd'
-
+import { PriceTag } from '../../price-tag/price-tag'
 import styles from './ingredient-item.module.scss'
 
 interface IIngredientItemProps {
@@ -16,8 +13,8 @@ interface IIngredientItemProps {
 export const IngredientItem = ({
   ingredient,
   onClick,
-}: IIngredientItemProps) => {
-  const { bun, ingredients } = useAppSelector(state => state.order)
+}: IIngredientItemProps): React.JSX.Element => {
+  const { bun, ingredients } = useSelector(state => state.order)
   const count = [...ingredients, bun].filter(
     item => item?._id === ingredient._id,
   ).length
@@ -38,12 +35,7 @@ export const IngredientItem = ({
           height="120"
         />
       </div>
-      <div className={styles.price}>
-        <span className="text text_type_digits-default">
-          {ingredient.price}
-        </span>
-        <CurrencyIcon type="primary" />
-      </div>
+      <PriceTag price={ingredient.price} />
       <span className={styles.name}>{ingredient.name}</span>
     </li>
   )

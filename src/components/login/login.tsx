@@ -1,21 +1,21 @@
 import { useNavigate } from 'react-router-dom'
-import styles from './login.module.scss'
 import {
+  Button,
   EmailInput,
   PasswordInput,
-  Button,
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import { useState } from 'react'
-import { useAppDispatch } from '../../services/store'
+import { useDispatch } from '../../services/store'
 import { login } from '../../services/user/actions'
+import styles from './login.module.scss'
 
-export const Login = () => {
+export const Login = (): React.JSX.Element => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [loginError, setLoginError] = useState(false)
   const navigate = useNavigate()
-  const dispatch = useAppDispatch()
+  const dispatch = useDispatch()
 
   const handleRegisterClick = () => {
     navigate('/register')
