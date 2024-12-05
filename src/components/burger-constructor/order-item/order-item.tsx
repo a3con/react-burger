@@ -28,7 +28,7 @@ export const OrderItem = ({
   index,
   isLocked,
   thumbnail,
-}: IOrderItemProps) => {
+}: IOrderItemProps): React.JSX.Element => {
   const dispatch = useDispatch()
 
   const handleRemove = () => {
@@ -56,7 +56,7 @@ export const OrderItem = ({
 
   return (
     <li
-      className={`${styles.ingredient} ${!isLocked && styles.dragCursor}`}
+      className={`${styles.ingredient} ${!isLocked ? styles.dragCursor : ''}`}
       style={{ opacity: isDragging ? 0.5 : 1 }}
       ref={node => (isLocked ? null : drag(drop(node)))}
     >

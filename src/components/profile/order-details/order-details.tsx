@@ -1,8 +1,8 @@
 import { PriceTag } from '../../price-tag/price-tag'
-import styles from './order-details.module.scss'
 import { FormattedDate } from '@ya.praktikum/react-developer-burger-ui-components'
+import styles from './order-details.module.scss'
 
-export const ProfileOrderDetails = () => {
+export const ProfileOrderDetails = (): React.JSX.Element => {
   const order = {
     name: 'Black Hole Singularity острый бургер',
     status: 'Выполнен',

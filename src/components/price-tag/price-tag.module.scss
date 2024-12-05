@@ -1,6 +1,4 @@
 .price {
-  composes: text text_type_digits-default from global;
-
   display: inline-flex;
   align-items: center;
   gap: 8px;

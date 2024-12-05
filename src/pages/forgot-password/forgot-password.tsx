@@ -1,7 +1,7 @@
-import styles from './forgot-password.module.scss'
 import { ForgotPassword } from '../../components/forgot-password/forgot-password'
+import styles from './forgot-password.module.scss'
 
-export const ForgotPasswordPage = () => {
+export const ForgotPasswordPage = (): React.JSX.Element => {
   return (
     <section className={styles.container}>
       <ForgotPassword />

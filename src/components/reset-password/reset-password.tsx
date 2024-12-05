@@ -1,12 +1,12 @@
 import { useNavigate } from 'react-router-dom'
-import styles from './reset-password.module.scss'
 import {
   Input,
-  PasswordInput,
   Button,
+  PasswordInput,
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import { useEffect, useState } from 'react'
 import { updatePassword } from '../../utils/api'
+import styles from './reset-password.module.scss'
 
 export const ResetPassword = () => {
   const [newPassword, setNewPassword] = useState('')
@@ -32,8 +32,9 @@ export const ResetPassword = () => {
   useEffect(() => {
     const isResetPassword = localStorage.getItem('isResetPassword')
     if (isResetPassword !== 'true') {
-     navigate('/forgot-password')
+      navigate('/forgot-password')
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (

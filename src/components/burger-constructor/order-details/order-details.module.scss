@@ -1,4 +1,6 @@
 .order {
+  composes: text text_type_main-default from global;
+
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -6,10 +8,20 @@
   color: var(--text-primary-light);
 
   &__id {
-    text-shadow:
-      0 0 16px #3333ff40,
-      0 0 8px #3333ff40,
-      0 4px 32px #3333ff40;
+    composes: text text_type_digits-large mt-20 mb-8 from global;
+
+    text-shadow: 0 0 16px #3333ff40, 0 0 8px #3333ff40, 0 4px 32px #3333ff40;
+  }
+
+  &__status,
+  &__text {
+    composes: text text_type_main-medium from global;
+  }
+
+  &__status {
+    display: grid;
+    min-height: 637px;
+    place-content: center;
   }
 }
 

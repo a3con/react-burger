@@ -1,17 +1,17 @@
 import { useEffect, useState } from 'react'
-import styles from './profile.module.scss'
 import { useDispatch, useSelector } from '../../services/store'
 import {
   Input,
+  Button,
   EmailInput,
   PasswordInput,
-  Button,
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import { patchUser } from '../../services/user/actions'
 import { IUser } from '../../utils/interfaces'
 import { getUser } from '../../services/user/reducer'
+import styles from './profile.module.scss'
 
-export const Profile = () => {
+export const Profile = (): React.JSX.Element => {
   const user = useSelector(getUser)
   const [name, setName] = useState(user?.name || '')
   const [email, setEmail] = useState(user?.email || '')

@@ -1,8 +1,8 @@
 import { useParams } from 'react-router-dom'
-import styles from './ingredient-details.module.scss'
 import { useSelector } from '../../../services/store'
+import styles from './ingredient-details.module.scss'
 
-export const IngredientDetails = () => {
+export const IngredientDetails = (): React.JSX.Element | null => {
   const { id } = useParams()
   const ingredients = useSelector(state => state.ingredients.ingredients)
   const ingredient = ingredients.find(item => item._id === id)

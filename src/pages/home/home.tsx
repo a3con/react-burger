@@ -4,7 +4,7 @@ import { useSelector } from '../../services/store'
 import { loadIngredients } from '../../services/burger-ingredients/reducer'
 import styles from './home.module.scss'
 
-export const HomePage = () => {
+export const HomePage = (): React.JSX.Element => {
   const { loading, error } = useSelector(loadIngredients)
 
   return (

@@ -2,51 +2,32 @@ import iconChecked from '../../../images/checked.svg'
 import { useSelector } from '../../../services/store'
 import styles from './order-details.module.scss'
 
-export const OrderDetails = () => {
-  const { loading, orderNumber } = useSelector(state => state.order)
-  // TODO:
-  // [ ] error handling
-  // [ ] refactoring
+export const OrderDetails = (): React.JSX.Element => {
+  const { error, loading, orderNumber } = useSelector(state => state.order)
+
   return (
     <div className={styles.order}>
-      <p
-        className={`${styles.order__id} text text_type_digits-large mt-4 mb-8`}
-      >
-        {orderNumber}
-      </p>
-      <p className={`${loading ? styles.fade : ''} text text_type_main-medium`}>
-        идентификатор заказа
-      </p>
       {loading ? (
-        <p className="mt-15 mb-15">
-          <span className="text text_type_main-medium">
-            Оформление заказа...
-          </span>
-        </p>
+        <p className={styles.order__status}>Оформление заказа...</p>
+      ) : error ? (
+        <p className={styles.order__status}>Что-то пошло не так:(</p>
       ) : (
-        <img
-          className="mt-15 mb-15"
-          src={iconChecked}
-          alt="Изображение успешного заказа"
-          width="120"
-          height="120"
-        />
+        <>
+          <p className={styles.order__id}>{orderNumber}</p>
+          <p className={styles.order__text}>идентификатор заказа</p>
+          <img
+            className="mt-15 mb-15"
+            src={iconChecked}
+            alt="Изображение успешного заказа"
+            width="120"
+            height="120"
+          />
+          <p className="mb-2">Ваш заказ начали готовить</p>
+          <p className="mb-20" style={{ color: 'var(--text-inactive-color)' }}>
+            Дождитесь готовности на орбитальной станции
+          </p>
+        </>
       )}
-      <p
-        className={`${
-          loading ? styles.fade : ''
-        } text text_type_main-default mb-2`}
-      >
-        Ваш заказ начали готовить
-      </p>
-      <p
-        className={`${
-          loading ? styles.fade : ''
-        } text text_type_main-default mb-20`}
-        style={{ color: `var(--text-inactive-color)` }}
-      >
-        Дождитесь готовности на орбитальной станции
-      </p>
     </div>
   )
 }

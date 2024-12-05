@@ -4,7 +4,7 @@ import { Navigate, useLocation } from 'react-router-dom'
 import { getIsAuthChecked, getUser } from '../../services/user/reducer'
 import styles from './protected-route.module.scss'
 
-type TProtectedProps = {
+interface IProtectedProps {
   onlyUnAuth?: boolean
   component: React.JSX.Element
 }
@@ -12,7 +12,7 @@ type TProtectedProps = {
 const Protected = ({
   onlyUnAuth = false,
   component,
-}: TProtectedProps): React.JSX.Element => {
+}: IProtectedProps): React.JSX.Element => {
   const isAuthChecked = useSelector(getIsAuthChecked)
   const user = useSelector(getUser)
   const location = useLocation()

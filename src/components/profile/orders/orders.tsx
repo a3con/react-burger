@@ -1,18 +1,22 @@
 import { useLocation, useNavigate } from 'react-router-dom'
 import { IIngredient } from '../../../utils/interfaces'
 import { PriceTag } from '../../price-tag/price-tag'
-import styles from './orders.module.scss'
 import { FormattedDate } from '@ya.praktikum/react-developer-burger-ui-components'
+import styles from './orders.module.scss'
 
-const previewLimit: number = 5
+//const previewLimit: number = 5
 
 interface IOrderPreviewProps {
   ingredients: IIngredient[]
 }
 
-export const OrderPreview = ({ ingredients }: IOrderPreviewProps) => {
+export const OrderPreview = ({
+  ingredients,
+}: IOrderPreviewProps): React.JSX.Element => {
   //const previewIngredients = ingredients.slice(0, previewLimit)
   //const moreCount = Math.max(0, ingredients.length - previewLimit)
+
+  console.log(ingredients)
 
   return (
     <ul className={styles.preview}>
@@ -47,7 +51,7 @@ export const OrderPreview = ({ ingredients }: IOrderPreviewProps) => {
   )
 }
 
-export const ProfileOrders = () => {
+export const ProfileOrders = (): React.JSX.Element => {
   const location = useLocation()
   const navigate = useNavigate()
 

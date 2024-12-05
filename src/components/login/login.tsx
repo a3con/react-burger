@@ -1,15 +1,15 @@
 import { useNavigate } from 'react-router-dom'
-import styles from './login.module.scss'
 import {
+  Button,
   EmailInput,
   PasswordInput,
-  Button,
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import { useState } from 'react'
 import { useDispatch } from '../../services/store'
 import { login } from '../../services/user/actions'
+import styles from './login.module.scss'
 
-export const Login = () => {
+export const Login = (): React.JSX.Element => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)

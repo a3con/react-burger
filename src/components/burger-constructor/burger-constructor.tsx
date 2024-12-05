@@ -6,20 +6,17 @@ import { requestOrderNumber } from '../../services/burger-constructor/actions'
 import { useDrop } from 'react-dnd'
 import {
   setBun,
-  addIngredient,
-  //setIngredients,
   cleanOrder,
+  addIngredient,
 } from '../../services/burger-constructor/reducer'
 import { IIngredient } from '../../utils/interfaces'
-import {
-  CurrencyIcon,
-  Button,
-} from '@ya.praktikum/react-developer-burger-ui-components'
-import style from './burger-constructor.module.scss'
+import { Button } from '@ya.praktikum/react-developer-burger-ui-components'
 import { OrderDetails } from './order-details/order-details'
+import { PriceTag } from '../price-tag/price-tag'
 import { useNavigate } from 'react-router-dom'
+import style from './burger-constructor.module.scss'
 
-export const BurgerConstructor = () => {
+export const BurgerConstructor = (): React.JSX.Element => {
   const { bun, ingredients } = useSelector(state => state.order)
   const [showOrderModal, setShowOrderModal] = useState(false)
   const user = useSelector(state => state.user.user)
@@ -103,10 +100,7 @@ export const BurgerConstructor = () => {
       </ul>
 
       <div className={style.info}>
-        <div className={style.info__price}>
-          <span className="text text_type_digits-medium">{getTotalPrice}</span>
-          <CurrencyIcon type="primary" />
-        </div>
+        <PriceTag price={getTotalPrice} size="medium" />
         <Button
           onClick={handleModalOpen}
           disabled={!bun && ingredients.length === 0}

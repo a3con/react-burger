@@ -1,16 +1,16 @@
 import { useNavigate } from 'react-router-dom'
-import styles from './register.module.scss'
 import {
   Input,
+  Button,
   EmailInput,
   PasswordInput,
-  Button,
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import { useState } from 'react'
 import { useDispatch } from '../../services/store'
 import { register } from '../../services/user/actions'
+import styles from './register.module.scss'
 
-export const Register = () => {
+export const Register = (): React.JSX.Element => {
   const [name, setUserName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')

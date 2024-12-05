@@ -18,7 +18,7 @@ import { ProfileOrders } from '../profile/orders/orders'
 import { ProfileOrderDetails } from '../profile/order-details/order-details'
 import { FeedPage } from '../../pages/feed/feed'
 
-export default function App() {
+export default function App(): React.JSX.Element {
   const dispatch = useDispatch()
   const location = useLocation()
   const background = location.state && location.state.background
@@ -26,11 +26,10 @@ export default function App() {
   const closeModal = () => navigate(-1)
 
   useEffect(() => {
-    dispatch(checkUserAuth()) // check: 9
+    dispatch(checkUserAuth())
     dispatch(getIngredients())
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-
-  // check: 8
 
   return (
     <>

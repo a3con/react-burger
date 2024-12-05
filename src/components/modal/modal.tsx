@@ -1,8 +1,8 @@
 import { createPortal } from 'react-dom'
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components'
-import styles from './modal.module.scss'
 import { ModalOverlay } from './modal-overlay/modal-overlay'
 import { useEscapeKey } from '../../hooks/useEscapeKey'
+import styles from './modal.module.scss'
 
 enum ModalTitleSizes {
   default,
@@ -22,7 +22,7 @@ export const Modal = ({
   onClose,
   title,
   titleSize = 'large',
-}: IModalProps) => {
+}: IModalProps): React.JSX.Element => {
   const modals = document.getElementById('modals') as HTMLElement
 
   useEscapeKey(onClose)
