@@ -7,7 +7,7 @@ import {
   Button,
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import { useState } from 'react'
-import { useAppDispatch } from '../../services/store'
+import { useDispatch } from '../../services/store'
 import { register } from '../../services/user/actions'
 
 export const Register = () => {
@@ -15,7 +15,7 @@ export const Register = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const navigate = useNavigate()
-  const dispatch = useAppDispatch()
+  const dispatch = useDispatch()
 
   const handleLoginClick = () => {
     navigate('/login')

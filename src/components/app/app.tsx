@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { useAppDispatch } from '../../services/store'
+import { useDispatch } from '../../services/store'
 import { getIngredients } from '../../services/burger-ingredients/actions'
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom'
 import { AppLayout } from '../app-layout/app-layout'
@@ -19,7 +19,7 @@ import { ProfileOrderDetails } from '../profile/order-details/order-details'
 import { FeedPage } from '../../pages/feed/feed'
 
 export default function App() {
-  const dispatch = useAppDispatch()
+  const dispatch = useDispatch()
   const location = useLocation()
   const background = location.state && location.state.background
   const navigate = useNavigate()

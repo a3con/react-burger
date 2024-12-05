@@ -1,9 +1,9 @@
 import iconChecked from '../../../images/checked.svg'
-import { useAppSelector } from '../../../services/store'
+import { useSelector } from '../../../services/store'
 import styles from './order-details.module.scss'
 
 export const OrderDetails = () => {
-  const { loading, orderNumber } = useAppSelector(state => state.order)
+  const { loading, orderNumber } = useSelector(state => state.order)
   // TODO:
   // [ ] error handling
   // [ ] refactoring

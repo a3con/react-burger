@@ -2,7 +2,7 @@ import {
   CurrencyIcon,
   Counter,
 } from '@ya.praktikum/react-developer-burger-ui-components'
-import { useAppSelector } from '../../../services/store'
+import { useSelector } from '../../../services/store'
 import { IIngredient } from '../../../utils/interfaces'
 import { useDrag } from 'react-dnd'
 
@@ -17,7 +17,7 @@ export const IngredientItem = ({
   ingredient,
   onClick,
 }: IIngredientItemProps) => {
-  const { bun, ingredients } = useAppSelector(state => state.order)
+  const { bun, ingredients } = useSelector(state => state.order)
   const count = [...ingredients, bun].filter(
     item => item?._id === ingredient._id,
   ).length

@@ -4,12 +4,12 @@ import { IngredientItem } from './ingredient-item/ingredient-item'
 import styles from './burger-ingredients.module.scss'
 import { IIngredient } from '../../utils/interfaces'
 import { RefObject } from 'react'
-import { useAppSelector } from '../../services/store'
+import { useSelector } from '../../services/store'
 import { loadIngredients } from '../../services/burger-ingredients/reducer'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 export const BurgerIngredients = () => {
-  const { ingredients } = useAppSelector(loadIngredients)
+  const { ingredients } = useSelector(loadIngredients)
   const [currentTab, setCurrentTab] = useState('buns')
 
   const bunsRef = useRef<HTMLDivElement>(null)

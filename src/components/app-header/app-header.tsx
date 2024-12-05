@@ -7,7 +7,7 @@ import {
   ProfileIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import { NavLink, useMatch } from 'react-router-dom'
-import { useAppSelector } from '../../services/store'
+import { useSelector } from '../../services/store'
 import { getUser } from '../../services/user/reducer'
 
 interface INavLinkItemProps {
@@ -31,7 +31,7 @@ const NavLinkItem = ({ text, to, icon }: INavLinkItemProps) => {
 }
 
 export const AppHeader = () => {
-  const user = useAppSelector(getUser)
+  const user = useSelector(getUser)
 
   return (
     <div className={styles.header}>

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import styles from './profile.module.scss'
-import { useAppDispatch, useAppSelector } from '../../services/store'
+import { useDispatch, useSelector } from '../../services/store'
 import {
   Input,
   EmailInput,
@@ -12,14 +12,14 @@ import { IUser } from '../../utils/interfaces'
 import { getUser } from '../../services/user/reducer'
 
 export const Profile = () => {
-  const user = useAppSelector(getUser)
+  const user = useSelector(getUser)
   const [name, setName] = useState(user?.name || '')
   const [email, setEmail] = useState(user?.email || '')
   const [password, setPassword] = useState('')
   const [nameDisabled, setNameDisabled] = useState(true)
   const [showControls, setShowControls] = useState(false)
   const [loading, setLoading] = useState(false)
-  const dispatch = useAppDispatch()
+  const dispatch = useDispatch()
 
   const revertState = (payload?: IUser) => {
     setName(payload?.name || user?.name || '')

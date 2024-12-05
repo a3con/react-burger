@@ -1,10 +1,10 @@
 import { Link, NavLink, Outlet } from 'react-router-dom'
 import styles from './profile.module.scss'
-import { useAppDispatch } from '../../services/store'
+import { useDispatch } from '../../services/store'
 import { logout } from '../../services/user/actions'
 
 export const ProfilePage = () => {
-  const dispatch = useAppDispatch()
+  const dispatch = useDispatch()
 
   const handleLogout = () => {
     dispatch(logout())

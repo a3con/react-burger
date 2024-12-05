@@ -7,7 +7,7 @@ import {
   removeIngredient,
 } from '../../../services/burger-constructor/reducer'
 import { useDrop, useDrag } from 'react-dnd'
-import { useAppDispatch } from '../../../services/store'
+import { useDispatch } from '../../../services/store'
 import styles from './order-item.module.scss'
 
 interface IOrderItemProps {
@@ -29,7 +29,7 @@ export const OrderItem = ({
   isLocked,
   thumbnail,
 }: IOrderItemProps) => {
-  const dispatch = useAppDispatch()
+  const dispatch = useDispatch()
 
   const handleRemove = () => {
     !isLocked && uuid && dispatch(removeIngredient(uuid))

@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react'
 import { Modal } from '../modal/modal'
 import { OrderItem } from './order-item/order-item'
-import { useAppDispatch, useAppSelector } from '../../services/store'
+import { useDispatch, useSelector } from '../../services/store'
 import { requestOrderNumber } from '../../services/burger-constructor/actions'
 import { useDrop } from 'react-dnd'
 import {
@@ -20,10 +20,10 @@ import { OrderDetails } from './order-details/order-details'
 import { useNavigate } from 'react-router-dom'
 
 export const BurgerConstructor = () => {
-  const { bun, ingredients } = useAppSelector(state => state.order)
+  const { bun, ingredients } = useSelector(state => state.order)
   const [showOrderModal, setShowOrderModal] = useState(false)
-  const user = useAppSelector(state => state.user.user)
-  const dispatch = useAppDispatch()
+  const user = useSelector(state => state.user.user)
+  const dispatch = useDispatch()
   const navigate = useNavigate()
 
   const getTotalPrice = useMemo(() => {

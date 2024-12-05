@@ -1,5 +1,5 @@
 import React from 'react'
-import { useAppSelector } from '../../services/store'
+import { useSelector } from '../../services/store'
 import { Navigate, useLocation } from 'react-router-dom'
 import { getIsAuthChecked, getUser } from '../../services/user/reducer'
 import styles from './protected-route.module.scss'
@@ -13,8 +13,8 @@ const Protected = ({
   onlyUnAuth = false,
   component,
 }: TProtectedProps): React.JSX.Element => {
-  const isAuthChecked = useAppSelector(getIsAuthChecked)
-  const user = useAppSelector(getUser)
+  const isAuthChecked = useSelector(getIsAuthChecked)
+  const user = useSelector(getUser)
   const location = useLocation()
 
   if (!isAuthChecked) {

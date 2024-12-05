@@ -1,10 +1,10 @@
 import { useParams } from 'react-router-dom'
 import styles from './ingredient-details.module.scss'
-import { useAppSelector } from '../../../services/store'
+import { useSelector } from '../../../services/store'
 
 export const IngredientDetails = () => {
   const { id } = useParams()
-  const ingredients = useAppSelector(state => state.ingredients.ingredients)
+  const ingredients = useSelector(state => state.ingredients.ingredients)
   const ingredient = ingredients.find(item => item._id === id)
 
   if (!ingredient) return null
