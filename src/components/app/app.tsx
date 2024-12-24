@@ -65,6 +65,7 @@ export default function App(): React.JSX.Element {
             path="/profile/orders/:id"
             element={<OnlyAuth component={<ProfileOrderDetails />} />}
           />
+          <Route path="/feed/:id" element={<ProfileOrderDetails />} />
         </Route>
       </Routes>
 
@@ -83,6 +84,14 @@ export default function App(): React.JSX.Element {
             element={
               <Modal onClose={closeModal}>
                 <OnlyAuth component={<ProfileOrderDetails />} />
+              </Modal>
+            }
+          />
+          <Route
+            path="/feed/:id"
+            element={
+              <Modal onClose={closeModal}>
+                <ProfileOrderDetails />
               </Modal>
             }
           />
