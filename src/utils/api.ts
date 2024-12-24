@@ -15,6 +15,13 @@ export const endpoints = {
   user: BASE_URL_API + '/auth/user', // GET | PATCH
 }
 
+const BASE_WS_API = 'wss://norma.nomoreparties.space'
+
+export const wsEndpoints = {
+  feed: BASE_WS_API + '/orders/all',
+  userOrders: BASE_WS_API + '/orders',
+}
+
 export interface IResponseSuccess {
   success: boolean
   message?: string
