@@ -1,0 +1,25 @@
+@use '../../styles' as styles;
+
+.preview {
+  display: inline-flex;
+  position: relative;
+  list-style: none;
+
+  &__item {
+    &:not(:first-child) {
+      margin-inline-start: -16px;
+    }
+
+    @include styles.preview-badge;
+  }
+
+  &__more {
+    composes: text text_type_main-default from global;
+
+    display: grid;
+    place-content: center;
+    background: rgb(28 28 33 / 60%);
+    position: absolute;
+    inset: 0;
+  }
+}

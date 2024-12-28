@@ -1,4 +1,4 @@
-@use '../../../styles' as styles;
+@use '../../styles' as styles;
 
 .details {
   margin: 120px auto;
@@ -43,12 +43,6 @@
 
   &__name {
     composes: text text_type_main-default from global;
-  }
-
-  &__status {
-    composes: text text_type_main-default from global;
-
-    color: var(--colors-interface-success);
   }
 
   &__date {

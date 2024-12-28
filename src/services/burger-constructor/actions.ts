@@ -1,7 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { endpoints, requestWithRefresh } from '../../utils/api'
+import { endpoints, request, requestWithRefresh } from '../../utils/api'
 import type { IResponseSuccess } from '../../utils/api'
 import type { IStateOrder } from './reducer'
+import { IOrder } from '../../utils/interfaces'
 
 export interface IOrderNumberRequest extends IResponseSuccess {
   name: string
@@ -41,5 +42,20 @@ export const requestOrderNumber = createAsyncThunk(
     const orderNumber = response.order.number
 
     return orderNumber
+  },
+)
+
+export interface IOrderRequest extends IResponseSuccess {
+  orders: IOrder[]
+}
+
+export const requestOrderByNumber = createAsyncThunk(
+  'burgerConstructor/requestOrderByNumber',
+  async (orderNumber: number) => {
+    const response = await request<IOrderRequest>(
+      `${endpoints.orders}/${orderNumber}`,
+    )
+
+    return response.orders[0] ?? null
   },
 )

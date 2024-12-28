@@ -15,7 +15,7 @@ import { checkUserAuth } from '../../services/user/actions'
 import { ProfilePage } from '../../pages/profile/profile'
 import { Profile } from '../profile/profile'
 import { ProfileOrders } from '../profile/orders/orders'
-import { ProfileOrderDetails } from '../profile/order-details/order-details'
+import { OrderDetails } from '../order-details/order-details'
 import { FeedPage } from '../../pages/feed/feed'
 
 export default function App(): React.JSX.Element {
@@ -38,6 +38,7 @@ export default function App(): React.JSX.Element {
           <Route index element={<HomePage />} />
           <Route path="/feed" element={<FeedPage />} />
           <Route path="/ingredients/:id" element={<IngredientDetails />} />
+          <Route path="/feed/:id" element={<OrderDetails />} />
           <Route
             path="/login"
             element={<OnlyUnAuth component={<LoginPage />} />}
@@ -63,9 +64,8 @@ export default function App(): React.JSX.Element {
           </Route>
           <Route
             path="/profile/orders/:id"
-            element={<OnlyAuth component={<ProfileOrderDetails />} />}
+            element={<OnlyAuth component={<OrderDetails />} />}
           />
-          <Route path="/feed/:id" element={<ProfileOrderDetails />} />
         </Route>
       </Routes>
 
@@ -80,18 +80,18 @@ export default function App(): React.JSX.Element {
             }
           />
           <Route
-            path="/profile/orders/:id"
+            path="/feed/:id"
             element={
               <Modal onClose={closeModal}>
-                <OnlyAuth component={<ProfileOrderDetails />} />
+                <OrderDetails />
               </Modal>
             }
           />
           <Route
-            path="/feed/:id"
+            path="/profile/orders/:id"
             element={
               <Modal onClose={closeModal}>
-                <ProfileOrderDetails />
+                <OnlyAuth component={<OrderDetails />} />
               </Modal>
             }
           />
