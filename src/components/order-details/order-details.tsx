@@ -7,6 +7,7 @@ import { useParams } from 'react-router-dom'
 import { requestOrderByNumber } from '../../services/burger-constructor/actions'
 import { OrderStatus } from '../order-status/order-status'
 import { OrderPrice } from '../order-price/order-price'
+import { Loader } from '../loader/loader'
 import styles from './order-details.module.scss'
 
 const mergeIngredients = (ingredients: string[]): Record<string, number> => {
@@ -45,7 +46,9 @@ export const OrderDetails = (): React.JSX.Element => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  if (!order) return <p>Loading...</p>
+  if (!order) {
+    return <Loader text="Загрузка..." />
+  }
 
   const mergedIngredients = mergeIngredients(order.ingredients)
 

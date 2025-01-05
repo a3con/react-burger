@@ -5,6 +5,7 @@ import { OrderCard } from '../../order-card/order-card'
 import { UserOrdersActions } from '../../../services/user-orders/actions'
 import { wsEndpoints } from '../../../utils/api'
 import { IOrder } from '../../../utils/interfaces'
+import { Loader } from '../../loader/loader'
 import styles from './orders.module.scss'
 
 export const ProfileOrders = (): React.JSX.Element => {
@@ -25,6 +26,10 @@ export const ProfileOrders = (): React.JSX.Element => {
     navigate(`/profile/orders/${number}`, {
       state: { background: location },
     })
+  }
+
+  if (orders.length < 1) {
+    return <Loader text="Загрузка..." />
   }
 
   return (
