@@ -44,7 +44,12 @@ export const ordersSlice = createSlice({
       .addCase(OrdersHistoryActions.onMessage, (state, action) => {
         const data = action.payload
         if (data.success && data.orders) {
-          state.orders = data.orders
+          state.orders = data.orders.filter(order => {
+            return (
+              Array.isArray(order.ingredients) &&
+              order.ingredients.every(i => typeof i === 'string')
+            )
+          })
           state.total = data.total
           state.totalToday = data.totalToday
         }
@@ -52,7 +57,5 @@ export const ordersSlice = createSlice({
   },
 })
 
-export const ordersHistoryMiddleware = socketMiddleware(
-  OrdersHistoryActions,
-)
+export const ordersHistoryMiddleware = socketMiddleware(OrdersHistoryActions)
 export const { setOrders, setTotals } = ordersSlice.actions

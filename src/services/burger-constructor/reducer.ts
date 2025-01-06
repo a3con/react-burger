@@ -86,7 +86,13 @@ export const burgerConstructorSlice = createSlice({
     builder.addCase(
       requestOrderByNumber.fulfilled,
       (state, action: PayloadAction<IOrder>) => {
-        state.currentOrder = action.payload
+        const order = action.payload
+        if (
+          Array.isArray(order.ingredients) &&
+          order.ingredients.every(i => typeof i === 'string')
+        ) {
+          state.currentOrder = order
+        }
         state.loading = false
         state.error = null
       },
