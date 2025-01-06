@@ -19,7 +19,8 @@ export const FeedPage = (): React.JSX.Element => {
     return () => {
       dispatch(OrdersHistoryActions.disconnect())
     }
-  }, [dispatch])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const location = useLocation()
   const navigate = useNavigate()

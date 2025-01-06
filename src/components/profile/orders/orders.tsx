@@ -17,7 +17,8 @@ export const ProfileOrders = (): React.JSX.Element => {
     return () => {
       dispatch(UserOrdersActions.disconnect())
     }
-  }, [dispatch])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const location = useLocation()
   const navigate = useNavigate()
