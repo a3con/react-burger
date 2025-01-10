@@ -2,7 +2,7 @@ import React from 'react'
 import { useSelector } from '../../services/store'
 import { Navigate, useLocation } from 'react-router-dom'
 import { getIsAuthChecked, getUser } from '../../services/user/reducer'
-import styles from './protected-route.module.scss'
+import { Loader } from '../loader/loader'
 
 interface IProtectedProps {
   onlyUnAuth?: boolean
@@ -18,7 +18,7 @@ const Protected = ({
   const location = useLocation()
 
   if (!isAuthChecked) {
-    return <p className={styles.status}>Загрузка...</p>
+    return <Loader text="Загрузка..." />
   }
 
   if (onlyUnAuth && user) {

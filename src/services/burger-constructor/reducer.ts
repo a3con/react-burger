@@ -1,6 +1,6 @@
 import { createSlice, nanoid, PayloadAction } from '@reduxjs/toolkit'
-import { requestOrderNumber } from './actions'
-import { IIngredient } from '../../utils/interfaces'
+import { requestOrderNumber, requestOrderByNumber } from './actions'
+import { IIngredient, IOrder } from '../../utils/interfaces'
 
 export interface IConstructorIngredient extends IIngredient {
   uuid: string
@@ -10,6 +10,7 @@ export interface IStateOrder {
   bun: IConstructorIngredient | null
   ingredients: IConstructorIngredient[]
   orderNumber: number | null
+  currentOrder: IOrder | null
   loading: boolean
   error: string | null
 }
@@ -18,6 +19,7 @@ export const initialState: IStateOrder = {
   bun: null,
   ingredients: [],
   orderNumber: null,
+  currentOrder: null,
   loading: false,
   error: null,
 }
@@ -58,6 +60,7 @@ export const burgerConstructorSlice = createSlice({
     cleanOrder: state => {
       state.orderNumber = initialState.orderNumber
       state.ingredients = initialState.ingredients
+      //state.currentOrder = initialState.currentOrder
       state.bun = initialState.bun
     },
   },
@@ -72,6 +75,29 @@ export const burgerConstructorSlice = createSlice({
       state.error = null
     })
     builder.addCase(requestOrderNumber.rejected, (state, action) => {
+      state.loading = false
+      state.error = action.error.message || null
+    })
+    // Get order by number
+    builder.addCase(requestOrderByNumber.pending, state => {
+      state.loading = true
+      state.error = null
+    })
+    builder.addCase(
+      requestOrderByNumber.fulfilled,
+      (state, action: PayloadAction<IOrder>) => {
+        const order = action.payload
+        if (
+          Array.isArray(order.ingredients) &&
+          order.ingredients.every(i => typeof i === 'string')
+        ) {
+          state.currentOrder = order
+        }
+        state.loading = false
+        state.error = null
+      },
+    )
+    builder.addCase(requestOrderByNumber.rejected, (state, action) => {
       state.loading = false
       state.error = action.error.message || null
     })
