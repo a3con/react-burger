@@ -32,7 +32,9 @@ export const OrderItem = ({
   const dispatch = useDispatch()
 
   const handleRemove = () => {
-    !isLocked && uuid && dispatch(removeIngredient(uuid))
+    if (!isLocked && uuid) {
+      dispatch(removeIngredient(uuid))
+    }
   }
 
   const [{ isDragging }, drag] = useDrag({

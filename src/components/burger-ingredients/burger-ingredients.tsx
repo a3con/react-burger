@@ -8,6 +8,7 @@ import { loadIngredients } from '../../services/burger-ingredients/reducer'
 import { useLocation, useNavigate } from 'react-router-dom'
 import styles from './burger-ingredients.module.scss'
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 enum IngredientTabs {
   buns,
   sauces,
@@ -75,7 +76,7 @@ export const BurgerIngredients = (): React.JSX.Element => {
           minBox = box
         }
       }
-      minBox && setCurrentTab(minBox[0])
+      if (minBox) setCurrentTab(minBox[0])
     }
   }
 

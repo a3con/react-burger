@@ -2,6 +2,7 @@ import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components
 import { IIngredient } from '../../utils/interfaces'
 import styles from './price-tag.module.scss'
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 enum PriceTagSizes {
   default,
   medium,

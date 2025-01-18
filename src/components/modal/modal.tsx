@@ -4,6 +4,7 @@ import { ModalOverlay } from './modal-overlay/modal-overlay'
 import { useEscapeKey } from '../../hooks/useEscapeKey'
 import styles from './modal.module.scss'
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 enum ModalTitleSizes {
   default,
   medium,
