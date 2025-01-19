@@ -58,7 +58,11 @@ export const BurgerConstructor = (): React.JSX.Element => {
   })
 
   return (
-    <section className={style.burgerConstructor} ref={drop}>
+    <section
+      className={style.burgerConstructor}
+      ref={drop}
+      data-testid="cy-constructor-drop-area"
+    >
       <ul
         className={`${style.components} ${
           bun === null && ingredients.length < 1 && style.empty
@@ -107,6 +111,7 @@ export const BurgerConstructor = (): React.JSX.Element => {
           htmlType="button"
           type="primary"
           size="large"
+          data-testid="cy-constructor-place-an-order"
         >
           Оформить заказ
         </Button>
