@@ -1,11 +1,11 @@
-import { ordersSlice, initialState } from './reducer'
+import { initialState, ordersSlice, setOrders, setTotals } from './reducer'
 import { WebsocketStatus } from '../../utils/interfaces'
 import { generateHistoryOrder } from '../__test__/mocks'
 
 describe('ordersSlice reducers', () => {
   it('should create an action to set orders', () => {
     const newOrders = [generateHistoryOrder()]
-    const action = ordersSlice.actions.setOrders(newOrders)
+    const action = setOrders(newOrders)
 
     const newState = ordersSlice.reducer(initialState, action)
 
@@ -13,8 +13,8 @@ describe('ordersSlice reducers', () => {
   })
 
   it('should create an action to set totals', () => {
-    const { total, totalToday } = (5, 10)
-    const action = ordersSlice.actions.setOrders({ total, totalToday })
+    const { total, totalToday } = { total: 5, totalToday: 10 }
+    const action = setTotals({ total, totalToday })
 
     const newState = ordersSlice.reducer(initialState, action)
 
@@ -47,8 +47,8 @@ describe('ordersSlice reducers', () => {
   })
 
   it('should handle onMessage action with success and orders', () => {
-    const newOrders = [generateHistoryOrder(), generateHistoryOrder(), generateHistoryOrder()]
-    const { total, totalToday } = (2, 8)
+    const newOrders = [generateHistoryOrder(), generateHistoryOrder()]
+    const { total, totalToday } = { total: 2, totalToday: 8 }
     const action = {
       type: 'ORDERS_MESSAGE',
       payload: {
@@ -56,7 +56,7 @@ describe('ordersSlice reducers', () => {
         orders: newOrders,
         totalToday,
         total,
-      }
+      },
     }
 
     const newState = ordersSlice.reducer(initialState, action)
