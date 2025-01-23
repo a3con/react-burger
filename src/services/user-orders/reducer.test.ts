@@ -50,4 +50,19 @@ describe('userOrdersSlice reducers', () => {
 
     expect(newState.userOrders).toEqual(newOrders)
   })
+
+  it('should handle onMessage action with failed', () => {
+    const newOrders = [generateHistoryOrder(), generateHistoryOrder()]
+    const action = {
+      type: 'USER_ORDERS_MESSAGE',
+      payload: {
+        success: false,
+        orders: newOrders,
+      },
+    }
+
+    const newState = userOrdersSlice.reducer(initialState, action)
+
+    expect(newState.userOrders).toEqual([])
+  })
 })

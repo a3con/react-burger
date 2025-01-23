@@ -1,4 +1,5 @@
-import { IOrder } from '../../utils/interfaces'
+import { IIngredient, IOrder } from '../../utils/interfaces'
+import { IConstructorIngredient } from '../burger-constructor/reducer'
 
 // Function to generate a random string (for uuid)
 function generateString(length: number): string {
@@ -27,4 +28,41 @@ export function generateHistoryOrder(): IOrder {
     updatedAt: new Date().toISOString(),
     number: Math.floor(Math.random() * 1000) + 1,
   }
+}
+
+export function generateMockIngredient(
+  id?: string,
+  uuid?: string,
+  type: string = 'ingredient',
+): IConstructorIngredient {
+  return {
+    _id: id || generateString(12),
+    uuid: uuid || generateString(12),
+    name: `Mock ${type} ${id || generateString(12)}`,
+    type,
+    proteins: Math.floor(Math.random() * 100),
+    fat: Math.floor(Math.random() * 100),
+    carbohydrates: Math.floor(Math.random() * 100),
+    calories: Math.floor(Math.random() * 1000),
+    price: Math.floor(Math.random() * 10000),
+    image: `mock-${type}-image.jpg`,
+    image_mobile: `mock-${type}-image-mobile.jpg`,
+    image_large: `mock-${type}-image-large.jpg`,
+    __v: 0,
+  }
+}
+
+export function generateMockBun() {
+  return generateMockIngredient(undefined, undefined, 'bun')
+}
+
+export function generateMockIngredients(
+  count: number,
+  type?: string,
+): IIngredient[] {
+  const ingredients: IIngredient[] = []
+  for (let i = 1; i <= count; i++) {
+    ingredients.push(generateMockIngredient(undefined, undefined, type))
+  }
+  return ingredients
 }

@@ -35,14 +35,12 @@ export const userOrdersSlice = createSlice({
       .addCase(UserOrdersActions.onMessage, (state, action) => {
         const data = action.payload
         if (data.success && data.orders) {
-          if (data.orders) {
-            state.userOrders = data.orders.filter(order => {
-              return (
-                Array.isArray(order.ingredients) &&
-                order.ingredients.every(i => typeof i === 'string')
-              )
-            })
-          }
+          state.userOrders = data.orders.filter(order => {
+            return (
+              Array.isArray(order.ingredients) &&
+              order.ingredients.every(i => typeof i === 'string')
+            )
+          })
         }
       })
   },

@@ -2,6 +2,15 @@ import { initialState, ordersSlice, setOrders, setTotals } from './reducer'
 import { WebsocketStatus } from '../../utils/interfaces'
 import { generateHistoryOrder } from '../__test__/mocks'
 
+/*
+setOrders // OK
+setTotals // OK
+OrdersHistoryActions.onConnecting // OK
+OrdersHistoryActions.onOpen // OK
+OrdersHistoryActions.onClose // OK
+OrdersHistoryActions.onMessage // OK
+*/
+
 describe('ordersSlice reducers', () => {
   it('should create an action to set orders', () => {
     const newOrders = [generateHistoryOrder()]
@@ -64,5 +73,25 @@ describe('ordersSlice reducers', () => {
     expect(newState.orders).toEqual(newOrders)
     expect(newState.totalToday).toEqual(totalToday)
     expect(newState.total).toEqual(total)
+  })
+
+  it('should handle onMessage action with failed', () => {
+    const newOrders = [generateHistoryOrder(), generateHistoryOrder()]
+    const { total, totalToday } = { total: 2, totalToday: 8 }
+    const action = {
+      type: 'ORDERS_MESSAGE',
+      payload: {
+        success: false,
+        orders: newOrders,
+        totalToday,
+        total,
+      },
+    }
+
+    const newState = ordersSlice.reducer(initialState, action)
+
+    expect(newState.totalToday).toEqual(initialState.totalToday)
+    expect(newState.total).toEqual(initialState.total)
+    expect(newState.orders).toEqual([])
   })
 })
