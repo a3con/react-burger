@@ -15,15 +15,6 @@ import * as api from '../../utils/api'
 
 describe('burgerConstructorSlice reducers', () => {
 
-  /*
-  setBun, // OK
-  addIngredient, // OK
-  setIngredients, // OK
-  removeIngredient, // OK
-  moveIngredient,
-  cleanOrder, // OK
-  */
-
   it('should handle setBun', () => {
     const mockBun = generateMockBun();
     const action = burgerConstructorSlice.actions.setBun(mockBun)
@@ -43,14 +34,30 @@ describe('burgerConstructorSlice reducers', () => {
   })
 
   it('should handle addIngredient', () => {
-    const mokeIngredient = generateMockIngredient()
-    const action = burgerConstructorSlice.actions.addIngredient(mokeIngredient)
+    const mokeIngredient = {
+      ...generateMockIngredient(),
+      uuid: 'qE23w'
+    }
+    const action = {
+      type: addIngredient,
+      payload: mokeIngredient,
+    }
 
     const newState = burgerConstructorSlice.reducer(undefined, action)
 
     expect(newState.ingredients).toHaveLength(1)
-    expect({ ...newState.ingredients[0], uuid: mokeIngredient.uuid }).toEqual({ ...mokeIngredient })
+    expect(newState.ingredients[0]).toEqual(mokeIngredient)
   })
+
+  // it('should handle addIngredient', () => {
+  //   const mokeIngredient = generateMockIngredient()
+  //   const action = burgerConstructorSlice.actions.addIngredient(mokeIngredient)
+
+  //   const newState = burgerConstructorSlice.reducer(undefined, action)
+
+  //   expect(newState.ingredients).toHaveLength(1)
+  //   expect({ ...newState.ingredients[0], uuid: mokeIngredient.uuid }).toEqual({ ...mokeIngredient })
+  // })
 
   it('should handle removeIngredient', () => {
     const mockBun = generateMockBun()
@@ -101,15 +108,6 @@ describe('burgerConstructorSlice reducers', () => {
     expect(newState.ingredients).toHaveLength(0)
     expect(newState.bun).toBeNull()
   })
-
-  /*
-  requestOrderNumber.pending // OK
-  requestOrderNumber.fulfilled // OK
-  requestOrderNumber.rejected // OK
-  requestOrderByNumber.pending // OK
-  requestOrderByNumber.fulfilled // OK
-  requestOrderByNumber.rejected // OK
-  */
 
   it('should handle requestOrderNumber.pending', () => {
     const action = {

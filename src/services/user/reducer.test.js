@@ -1,36 +1,8 @@
 import { initialState, setIsAuthChecked, setUser, userSlice } from './reducer'
 import { login, logout, checkUserAuth, patchUser } from './actions'
-// import { useNavigate } from 'react-router-dom'
-// import * as router from 'react-router'
-
-// const navigate = jest.fn()
+import { expect, jest, it } from '@jest/globals'
 
 describe('userSlice Test', () => {
-  // let store;
-  // let navigateMock;
-
-  // let fetchSpy: jest.Spied<typeof fetch>
-
-  // beforeEach(() => {
-  //   fetchSpy = jest.spyOn(global, 'fetch').mockResolvedValue({
-  //     ok: true,
-  //     json: function () {
-  //       return { result: 'OK' }
-  //     },
-  //   } as unknown as Response)
-  // })
-
-  // let useNavigateSpy: jest.Spied<typeof useNavigate>
-
-  // beforeEach(() => {
-  //   useNavigateSpy = jest
-  //     .spyOn(router, 'useNavigate')
-  //     .mockImplementation(() => navigate)
-  // })
-
-  // afterEach(() => {
-  //   jest.restoreAllMocks()
-  // })
 
   it('should return the initial state', () => {
     expect(userSlice.reducer(undefined, { type: '' })).toEqual(initialState)

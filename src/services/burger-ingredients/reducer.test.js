@@ -26,12 +26,6 @@ describe('ingredients reducer', () => {
     jest.restoreAllMocks()
   })
 
-  /* 
-  getIngredients.pending // OK
-  getIngredients.fulfilled // OK
-  getIngredients.rejected // OK
-  */
-
   it('should handle getIngredients.pending', () => {
     jest.spyOn(api, 'request').mockResolvedValue(mockedFetchResponse)
     store.dispatch(getIngredients())

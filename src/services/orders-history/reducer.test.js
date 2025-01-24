@@ -2,15 +2,6 @@ import { initialState, ordersSlice, setOrders, setTotals } from './reducer'
 import { WebsocketStatus } from '../../utils/interfaces'
 import { generateHistoryOrder } from '../__test__/mocks'
 
-/*
-setOrders // OK
-setTotals // OK
-OrdersHistoryActions.onConnecting // OK
-OrdersHistoryActions.onOpen // OK
-OrdersHistoryActions.onClose // OK
-OrdersHistoryActions.onMessage // OK
-*/
-
 describe('ordersSlice reducers', () => {
   it('should create an action to set orders', () => {
     const newOrders = [generateHistoryOrder()]
