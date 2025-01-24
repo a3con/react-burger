@@ -18,7 +18,12 @@ export const IngredientDetails = (): React.JSX.Element | null => {
           className={styles.details__img}
           style={{ backgroundImage: `url(${ingredient.image_large})` }}
         ></div>
-        <span className={styles.details__name}>{ingredient.name}</span>
+        <span
+          className={styles.details__name}
+          data-testid="cy-ingredient-details-name"
+        >
+          {ingredient.name}
+        </span>
         <ul className={styles.nutritional}>
           <li className={styles.nutritional__item}>
             <span>Калории, ккал</span>

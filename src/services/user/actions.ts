@@ -32,17 +32,6 @@ export const register = createAsyncThunk(
   },
 )
 
-/* Response
-{
-  "success": true,
-  "user": {
-      "email": "email",
-      "name": "name"
-  },
-  "accessToken": "Bearer token...",
-  "refreshToken": "refreshToken..."
-}
-*/
 export const login = createAsyncThunk(
   'user/login',
   async ({ email, password }: { email: string; password: string }) => {
@@ -64,24 +53,9 @@ export const logout = createAsyncThunk('user/logout', async () => {
     headers: { 'Content-Type': 'application/json;charset=utf-8' },
     body: JSON.stringify({ token }),
   })
-  //очистка заказа ???
   localStorage.removeItem('accessToken')
   localStorage.removeItem('refreshToken')
 })
-
-/* Response
-{"success":true,"user":{"email":"email","name":"name"}}
-*/
-// export const getUser = createAsyncThunk('user/getUser', async () => {
-//   const response = await requestWithRefresh<IUserResponse>(endpoints.user, {
-//     method: 'GET',
-//     headers: {
-//       'Content-Type': 'application/json; charset=utf-8',
-//       Authorization: localStorage.getItem('accessToken') || '',
-//     },
-//   })
-//   return response.user
-// })
 
 export const checkUserAuth = createAsyncThunk(
   'user/checkUserAuth',

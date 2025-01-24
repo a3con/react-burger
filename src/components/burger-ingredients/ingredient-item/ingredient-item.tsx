@@ -24,8 +24,16 @@ export const IngredientItem = ({
     item: ingredient,
   })
 
+  const testid =
+    ingredient.type === 'bun' ? 'cy-ingredient-bun' : 'cy-ingredient-card'
+
   return (
-    <li className={styles.ingredient} onClick={onClick} ref={dragRef}>
+    <li
+      className={styles.ingredient}
+      onClick={onClick}
+      ref={dragRef}
+      data-testid={testid}
+    >
       {count > 0 && <Counter count={count} size="default" extraClass="m-1" />}
       <div>
         <img

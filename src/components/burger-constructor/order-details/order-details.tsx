@@ -23,7 +23,9 @@ export const OrderDetails = (): React.JSX.Element => {
 
   return (
     <div className={styles.order}>
-      <p className={styles.order__id}>{orderNumber}</p>
+      <p className={styles.order__id} data-testid="cy-order-number">
+        {orderNumber}
+      </p>
       <p className={styles.order__text}>идентификатор заказа</p>
       <img
         className="mt-15 mb-15"
