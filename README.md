@@ -1,5 +1,7 @@
 # “Stellar Burgers”
 
+Адрес проекта [a3con.nomorepartiesco.ru](https://a3con.nomorepartiesco.ru/)
+
 Реализация `vite` + `react` + `redux` + `ts`
 
 ## Как запустить
