@@ -32,7 +32,9 @@ export const OrderItem = ({
   const dispatch = useDispatch()
 
   const handleRemove = () => {
-    !isLocked && uuid && dispatch(removeIngredient(uuid))
+    if (!isLocked && uuid) {
+      dispatch(removeIngredient(uuid))
+    }
   }
 
   const [{ isDragging }, drag] = useDrag({
@@ -54,11 +56,18 @@ export const OrderItem = ({
     },
   })
 
+  const testid = {
+    top: 'cy-constructor-bun-top',
+    bottom: 'cy-constructor-bun-bottom',
+    default: 'cy-constructor-ingredient',
+  }[type ?? 'default']
+
   return (
     <li
       className={`${styles.ingredient} ${!isLocked ? styles.dragCursor : ''}`}
       style={{ opacity: isDragging ? 0.5 : 1 }}
       ref={node => (isLocked ? null : drag(drop(node)))}
+      data-testid={testid}
     >
       <div className={styles.drag}>
         {!isLocked && <DragIcon type="primary" />}

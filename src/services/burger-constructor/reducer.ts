@@ -60,7 +60,6 @@ export const burgerConstructorSlice = createSlice({
     cleanOrder: state => {
       state.orderNumber = initialState.orderNumber
       state.ingredients = initialState.ingredients
-      //state.currentOrder = initialState.currentOrder
       state.bun = initialState.bun
     },
   },
